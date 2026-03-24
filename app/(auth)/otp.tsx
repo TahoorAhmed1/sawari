@@ -3,6 +3,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   KeyboardAvoidingView,
+  Linking,
   Platform,
   Text,
   TextInput,
@@ -13,18 +14,32 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function OTPScreen() {
   const router = useRouter();
-  // 1. Get the phone number passed from the previous screen
   const { phone } = useLocalSearchParams<{ phone: string }>();
   const [code, setCode] = useState("");
+  const [seconds, setSeconds] = useState(91);
+  const inputRef = React.useRef<TextInput | null>(null);
+
+  const focusOtp = () => {
+    inputRef.current?.focus();
+  };
 
   const handleVerify = (val: string) => {
-    setCode(val);
-    // 2. Automate navigation when code is full
-    if (val.length === 6) {
-      // replace ensures user can't go back to OTP screen after login
-      router.replace("/(passenger)");
+    const cleaned = val.replace(/[^\d]/g, "").slice(0, 4);
+    setCode(cleaned);
+    if (cleaned.length === 4) {
+      router.push("/(auth)/passkey" as never);
     }
   };
+
+  React.useEffect(() => {
+    if (seconds <= 0) return;
+    const timer = setInterval(() => setSeconds((prev) => prev - 1), 1000);
+    return () => clearInterval(timer);
+  }, [seconds]);
+
+  const canResend = seconds === 0;
+  const mm = String(Math.floor(seconds / 60)).padStart(2, "0");
+  const ss = String(seconds % 60).padStart(2, "0");
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -32,47 +47,85 @@ export default function OTPScreen() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1"
       >
-        {/* 3. Header with Back Button (Crucial for UX) */}
-        <View className="px-4 py-2">
+        <View className="px-2 pt-1">
           <TouchableOpacity
             onPress={() => router.back()}
-            className="w-10 h-10 items-center justify-center"
+            className="w-12 h-12 items-center justify-center"
           >
-            <Ionicons name="arrow-back" size={28} color="black" />
+            <Ionicons name="arrow-back" size={26} color="black" />
           </TouchableOpacity>
         </View>
 
-        <View className="p-6 flex-1">
-          <Text className="text-[32px] font-black text-black leading-tight">
-            Verification code
+        <View className="px-5 flex-1">
+          <Text className="text-4xl font-black text-black mt-6">
+            Enter the code
           </Text>
-          <Text className="text-gray-500 text-lg mt-2 mb-10 font-medium">
-            Sent to +92 {phone || "0000000000"}
+          <Text className="text-xl text-gray-700 mt-3 leading-7">
+            We sent your code via WhatsApp to {"\n"}+92 {phone || "0000000000"}
           </Text>
 
-          {/* 4. Styled Input with Character Spacing */}
-          <TextInput
-            className="bg-gray-50 border-2 border-gray-100 h-20 rounded-2xl text-center text-4xl font-black tracking-[15px] selection:bg-[#C2FF12]"
-            keyboardType="number-pad"
-            maxLength={6}
-            autoFocus
-            value={code}
-            onChangeText={handleVerify}
-            placeholder="000000"
-            placeholderTextColor="#e2e8f0"
-          />
+          <View className="mt-1" onTouchStart={focusOtp}>
+            {/* Invisible but focusable input: enables typing even when you tap the dots */}
+            <TextInput
+              ref={inputRef}
+              keyboardType="number-pad"
+              maxLength={4}
+              autoFocus
+              value={code}
+              onChangeText={handleVerify}
+              style={{
+                opacity: 0,
+                width: "100%"
+              }}
+            />
 
-          {/* 5. Resend Logic Section */}
-          <View className="flex-row items-center mt-8">
-            <Text className="text-gray-500 text-base font-medium">
-              Didn&apos;t receive code?{" "}
-            </Text>
-            <TouchableOpacity onPress={() => console.log("Resend requested")}>
-              <Text className="text-[#C2FF12] bg-black px-3 py-1 rounded-full font-bold">
-                Resend
-              </Text>
+            <TouchableOpacity
+              activeOpacity={0.9}
+              onPress={focusOtp}
+              className="flex-row items-center"
+            >
+              {[0, 1, 2, 3].map((idx) => (
+                <View
+                  key={idx}
+                  className={`h-4 w-4 rounded-full mr-6 ${
+                    idx < code.length ? "bg-gray-500" : "bg-gray-200"
+                  }`}
+                />
+              ))}
             </TouchableOpacity>
           </View>
+        </View>
+
+        <View className="px-5 pb-6">
+          <TouchableOpacity
+            activeOpacity={0.9}
+            className="h-14 bg-gray-100 rounded-2xl items-center justify-center"
+            onPress={() => {
+              Linking.openURL("whatsapp://");
+            }}
+          >
+            <Text className="text-2xl font-semibold text-black">Open WhatsApp</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              if (!canResend) return;
+              setSeconds(91);
+              setCode("");
+            }}
+            activeOpacity={0.9}
+            className={`h-14 rounded-2xl items-center justify-center mt-3 ${
+              canResend ? "bg-[#C2FF12]" : "bg-gray-100"
+            }`}
+          >
+            <Text
+              className={`text-2xl font-medium ${
+                canResend ? "text-black" : "text-gray-400"
+              }`}
+            >
+              {canResend ? "Resend code" : `Resend code ${mm}:${ss}`}
+            </Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>

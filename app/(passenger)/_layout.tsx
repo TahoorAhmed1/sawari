@@ -1,22 +1,25 @@
 import CustomDrawerContent from "@/components/shared/CustomDrawerContent";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { Drawer } from "expo-router/drawer";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function PassengerLayout() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <Drawer
-        drawerContent={(props) => <CustomDrawerContent {...props} />}
-        screenOptions={{
-          headerShown: false, // We use a custom menu button on the map
-          drawerStyle: {
-            width: "80%",
-            backgroundColor: "white",
-          },
-        }}
-      >
-        <Drawer.Screen name="index" options={{ drawerLabel: "Home" }} />
-      </Drawer>
-    </GestureHandlerRootView>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <BottomSheetModalProvider>
+        <Drawer
+          drawerContent={(props) => <CustomDrawerContent {...props} />}
+          screenOptions={{
+            headerShown: false,
+            drawerStyle: {
+              width: "80%",
+              backgroundColor: "white",
+            },
+          }}
+        >
+          <Drawer.Screen name="index" options={{ drawerLabel: "Home" }} />
+        </Drawer>
+      </BottomSheetModalProvider>
+    </SafeAreaView>
   );
 }

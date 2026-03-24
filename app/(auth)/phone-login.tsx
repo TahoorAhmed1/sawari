@@ -2,12 +2,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
-    KeyboardAvoidingView,
-    Platform,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -22,7 +22,10 @@ export default function PhoneLoginScreen() {
       return;
     }
     setError(null);
-    router.push("/(auth)/otp");
+    router.push({
+      pathname: "/(auth)/otp",
+      params: { phone },
+    });
   };
 
   return (
@@ -31,36 +34,34 @@ export default function PhoneLoginScreen() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1"
       >
-        {/* Navigation Header */}
-        <TouchableOpacity onPress={() => router.back()} className="p-5">
-          <Ionicons name="arrow-back" size={28} color="black" />
+        <TouchableOpacity
+          onPress={() => router.back()}
+          className="w-12 h-12 items-center justify-center ml-2 mt-1"
+        >
+          <Ionicons name="arrow-back" size={26} color="black" />
         </TouchableOpacity>
 
-        <View className="px-6 flex-1">
-          <Text className="text-[32px] font-black text-black leading-tight">
+        <View className="px-5 flex-1">
+          <Text className="text-4xl font-black text-black leading-tight mt-2">
             Join us via phone number
           </Text>
-          <Text className="text-gray-500 text-lg mt-2 mb-10 font-medium">
+          <Text className="text-gray-600 text-xl mt-2 mb-12">
             We&apos;ll text a code to verify your phone
           </Text>
 
-          {/* Professional Input Container */}
           <View
-            className={`flex-row items-center h-16 px-4 rounded-xl bg-gray-50 border-2 ${
-              error
-                ? "border-red-500"
-                : "border-gray-100 focus:border-[#C2FF12]"
+            className={`flex-row items-center h-[62px] px-3 rounded-2xl border-2 ${
+              error ? "border-red-500" : "border-red-400"
             }`}
           >
-            {/* Country Picker Section */}
-            <TouchableOpacity className="flex-row items-center border-r border-gray-200 pr-3 mr-4">
-              <Text className="text-2xl mr-2">🇵🇰</Text>
-              <Ionicons name="caret-down" size={12} color="black" />
-              <Text className="text-xl font-bold ml-2">+92</Text>
+            <TouchableOpacity className="flex-row items-center border-r border-gray-300 pr-3 mr-3">
+              <Text className="text-xl mr-1">🇵🇰</Text>
+              <Ionicons name="caret-down" size={11} color="black" />
+              <Text className="text-xl font-semibold ml-2">+92</Text>
             </TouchableOpacity>
 
             <TextInput
-              className="flex-1 text-xl font-bold"
+              className="flex-1 text-xl font-semibold text-black"
               placeholder=""
               keyboardType="phone-pad"
               value={phone}
@@ -73,24 +74,21 @@ export default function PhoneLoginScreen() {
             />
           </View>
 
-          {error && (
-            <Text className="text-red-500 text-sm mt-2 font-medium ml-1">
-              {error}
-            </Text>
-          )}
+          {error && <Text className="text-red-500 text-sm mt-2">{error}</Text>}
         </View>
 
-        {/* Footer Action */}
-        <View className="p-6">
+        <View className="px-5 pb-6">
           <TouchableOpacity
             onPress={handleNext}
             activeOpacity={0.8}
-            className={`h-16 rounded-3xl items-center justify-center ${
+            className={`h-14 rounded-2xl items-center justify-center ${
               phone.length >= 10 ? "bg-[#C2FF12]" : "bg-gray-100"
             }`}
           >
             <Text
-              className={`font-bold text-xl ${phone.length >= 10 ? "text-black" : "text-gray-400"}`}
+              className={`font-semibold text-2xl ${
+                phone.length >= 10 ? "text-black" : "text-gray-400"
+              }`}
             >
               Next
             </Text>

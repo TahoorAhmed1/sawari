@@ -1,21 +1,16 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-
 import "./global.css";
 
 export default function RootLayout() {
   return (
+    // Only ONE GestureHandlerRootView at the top level
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar style="dark" />
-
       <Stack
-        screenOptions={{
-          headerShown: false, // Professional apps usually use custom headers
-          animation: "fade_from_bottom", // Smooth transition
-        }}
+        screenOptions={{ headerShown: false, animation: "fade_from_bottom" }}
       >
-        {/* 3. Logical Route Grouping */}
         <Stack.Screen name="index" />
         <Stack.Screen
           name="(auth)"
