@@ -3,7 +3,7 @@ import BottomSheet, {
   BottomSheetScrollView,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
-import { ChevronRight, Navigation, Pencil } from "lucide-react-native";
+import { Navigation, Pencil } from "lucide-react-native";
 import React, { useMemo, useRef, useState } from "react";
 import {
   Dimensions,
@@ -35,7 +35,7 @@ export function SelectRideScreen({
   const [autoAccept, setAutoAccept] = useState(false);
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const snapPoints = useMemo(() => ["60%", "85%"], []);
+  const snapPoints = useMemo(() => ["50%", "80r%"], []);
 
   const selectedRide = useMemo(
     () => RIDE_OPTIONS.find((r) => r.id === selected)!,
@@ -44,7 +44,7 @@ export function SelectRideScreen({
 
   return (
     <View className="flex-1">
-      <View style={{ height: height * 0.42 }}>
+      <View className="flex-1">
         <MapView
           provider={PROVIDER_GOOGLE}
           style={StyleSheet.absoluteFillObject}
@@ -97,14 +97,6 @@ export function SelectRideScreen({
           <Ionicons name="arrow-back" size={20} color="#333" />
         </TouchableOpacity>
       </View>
-
-      <TouchableOpacity className="flex-row items-center px-5 py-3 border-b border-gray-100 bg-white">
-        <Ionicons name="ticket-outline" size={18} color="#555" />
-        <Text className="flex-1 ml-2 text-[14px] text-gray-700 font-medium">
-          Got promo code? Use it here
-        </Text>
-        <ChevronRight size={16} color="#aaa" />
-      </TouchableOpacity>
 
       <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints} index={0}>
         <BottomSheetScrollView

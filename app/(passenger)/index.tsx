@@ -14,7 +14,6 @@
  *   onPress={() => navigation.navigate("CityRideFlow")}
  */
 
-import { useNavigation } from "expo-router";
 import React, { useCallback, useState } from "react";
 import { View } from "react-native";
 
@@ -25,29 +24,40 @@ import { FindingRideScreen } from "@/components/passenger/screens/FindingRideScr
 import { HigherFareModal } from "@/components/passenger/screens/HigherFareModal";
 import { SelectRideScreen } from "@/components/passenger/screens/SelectRideScreen";
 
-// Types
+import { PassengerHomeSheet } from "@/components/passenger/screens/PassengerHomeSheet";
 import type { Step } from "@/components/passenger/types";
 
 export default function CityRideFlow() {
-  const navigation = useNavigation();
-  const [step, setStep] = useState<Step>("enter-route");
+  const [step, setStep] = useState<Step>("main");
+  const [showEnterRoute, setShowEnterRoute] = useState(false);
   const [showHigherFare, setShowHigherFare] = useState(false);
 
   const goBack = useCallback(() => {
-    // navigation.goBack();
-  }, [navigation]);
+    setStep("main");
+    setShowEnterRoute(false);
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
-      {/* Step 1 – Enter Route */}
-      {step === "enter-route" && (
-        <EnterRouteScreen
-          onNext={() => setStep("select-ride")}
-          onClose={goBack}
+      {step === "main" && !showEnterRoute && (
+        <PassengerHomeSheet
+          onNext={() => {
+            setShowEnterRoute(true);
+          }}
+          onClose={() => setShowEnterRoute(false)}
         />
       )}
 
-      {/* Step 2 – Select Ride */}
+      {showEnterRoute && (
+        <EnterRouteScreen
+          onNext={() => {
+            setShowEnterRoute(false);
+            setStep("select-ride");
+          }}
+          onClose={() => setShowEnterRoute(false)}
+        />
+      )}
+
       {step === "select-ride" && (
         <SelectRideScreen
           onFindOffers={() => setStep("finding-ride")}
@@ -56,7 +66,6 @@ export default function CityRideFlow() {
         />
       )}
 
-      {/* Step 4 – Finding Ride */}
       {step === "finding-ride" && (
         <>
           <FindingRideScreen

@@ -1,4 +1,5 @@
 export type Step =
+  | "main"
   | "enter-route"
   | "select-ride"
   | "payment-method"

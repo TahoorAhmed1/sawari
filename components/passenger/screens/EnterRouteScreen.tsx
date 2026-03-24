@@ -1,6 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
-import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { MapPin } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -12,7 +11,6 @@ import {
   View,
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Divider } from "../ui/Divider";
 
@@ -23,9 +21,7 @@ interface EnterRouteScreenProps {
 
 export function EnterRouteScreen({ onNext, onClose }: EnterRouteScreenProps) {
   const [dest, setDest] = useState("");
-  const navigation = useNavigation();
-  const insets = useSafeAreaInsets();
-  const extraTop = Math.max(0, insets.top - 24);
+
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const snapPoints = React.useMemo(() => ["35%", "70%", "95%"], []);
@@ -57,15 +53,6 @@ export function EnterRouteScreen({ onNext, onClose }: EnterRouteScreenProps) {
           longitudeDelta: 0.01,
         }}
       />
-
-      <TouchableOpacity
-        onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-        activeOpacity={0.85}
-        className="absolute left-5 bg-white rounded-full w-11 h-11 items-center justify-center shadow"
-        style={{ top: 36 + extraTop }}
-      >
-        <Ionicons name="menu" size={22} color="#333" />
-      </TouchableOpacity>
 
       <BottomSheetModal
         ref={bottomSheetModalRef}
