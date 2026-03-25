@@ -19,7 +19,6 @@ import { View } from "react-native";
 
 // Screen components
 import { DriverOfferScreen } from "@/components/passenger/screens/DriverOfferScreen";
-import { EnterRouteScreen } from "@/components/passenger/screens/EnterRouteScreen";
 import { FindingRideScreen } from "@/components/passenger/screens/FindingRideScreen";
 import { HigherFareModal } from "@/components/passenger/screens/HigherFareModal";
 import { SelectRideScreen } from "@/components/passenger/screens/SelectRideScreen";
@@ -29,32 +28,20 @@ import type { Step } from "@/components/passenger/types";
 
 export default function CityRideFlow() {
   const [step, setStep] = useState<Step>("main");
-  const [showEnterRoute, setShowEnterRoute] = useState(false);
   const [showHigherFare, setShowHigherFare] = useState(false);
 
   const goBack = useCallback(() => {
     setStep("main");
-    setShowEnterRoute(false);
   }, []);
 
   return (
     <View style={{ flex: 1 }}>
-      {step === "main" && !showEnterRoute && (
+      {step === "main" && (
         <PassengerHomeSheet
           onNext={() => {
-            setShowEnterRoute(true);
-          }}
-          onClose={() => setShowEnterRoute(false)}
-        />
-      )}
-
-      {showEnterRoute && (
-        <EnterRouteScreen
-          onNext={() => {
-            setShowEnterRoute(false);
             setStep("select-ride");
           }}
-          onClose={() => setShowEnterRoute(false)}
+          onClose={() => {}}
         />
       )}
 

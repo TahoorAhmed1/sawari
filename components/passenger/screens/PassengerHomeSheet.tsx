@@ -1,18 +1,19 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
-    Image,
-    Keyboard,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Image,
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { RouteModel } from "../../models/RouteModel";
 
 interface EnterRouteScreenProps {
   onNext: any;
@@ -23,13 +24,15 @@ export const PassengerHomeSheet = ({
   onNext,
   onClose,
 }: EnterRouteScreenProps) => {
+  const [showEnterRoute, setShowEnterRoute] = useState(false);
+
   const snapPoints = useMemo(() => ["60%", "94%"], []);
   const navigation = useNavigation();
 
   const insets = useSafeAreaInsets();
   const extraTop = Math.max(0, insets.top - 24);
   return (
-    <View className="flex-1 bg-gray-400/60">
+    <View className="flex-1 z-20 bg-gray-400/60">
       <MapView
         provider={PROVIDER_GOOGLE}
         style={StyleSheet.absoluteFillObject}
@@ -61,12 +64,10 @@ export const PassengerHomeSheet = ({
           showsVerticalScrollIndicator={false}
         >
           <View className="px-4 pt-2">
-            {/* Main Service Grid */}
             <View className="flex-row justify-between mb-3">
-              {/* Groceries Large Card */}
               <TouchableOpacity
                 className="w-[48%] h-48 bg-gray-100 rounded-3xl p-4 overflow-hidden"
-                onPress={() => onNext("enter-route")}
+                onPress={() => setShowEnterRoute(true)}
               >
                 <View className="z-10">
                   <Text className="text-gray-800 text-base font-bold leading-5">
@@ -87,41 +88,39 @@ export const PassengerHomeSheet = ({
                 />
               </TouchableOpacity>
 
-              {/* Right Column Stack */}
-              <View className="w-[48%] justify-between">
+              <View className="w-[48%] flex gap-3 justify-between">
                 <ServiceSmallCard
                   title="City rides"
                   img="https://cdn-icons-png.flaticon.com/512/2555/2555013.png"
-                  onPress={() => onNext("enter-route")}
+                  onPress={() => setShowEnterRoute(true)}
                 />
                 <ServiceSmallCard
                   title="City to City"
                   img="https://cdn-icons-png.flaticon.com/512/2099/2099140.png"
-                  onPress={() => onNext("enter-route")}
+                  onPress={() => setShowEnterRoute(true)}
                 />
               </View>
             </View>
 
-            {/* Courier & Freight Row */}
-            <View className="flex-row justify-between mb-4">
+            <View className="flex-row justify-between mb-3">
               <ServiceSmallCard
                 title="Couriers"
                 img="https://cdn-icons-png.flaticon.com/512/2362/2362252.png"
                 containerStyle="w-[48%]"
-                onPress={() => onNext("enter-route")}
+                onPress={() => setShowEnterRoute(true)}
               />
               <ServiceSmallCard
                 title="Freight"
                 img="https://cdn-icons-png.flaticon.com/512/2891/2891415.png"
                 containerStyle="w-[48%]"
-                onPress={() => onNext("enter-route")}
+                onPress={() => setShowEnterRoute(true)}
               />
             </View>
 
             {/* Search Bar */}
             <TouchableOpacity
               className="bg-gray-100 flex-row items-center p-4 rounded-2xl mb-4"
-              onPress={() => onNext("enter-route")}
+              onPress={() => setShowEnterRoute(true)}
             >
               <Ionicons name="search" size={20} color="#1F2937" />
               <Text className="text-gray-900 text-lg font-bold ml-3 flex-1">
@@ -130,7 +129,6 @@ export const PassengerHomeSheet = ({
               <Ionicons name="chevron-forward" size={16} color="#9CA3AF" />
             </TouchableOpacity>
 
-            {/* Horizontal Scrolling Section: Groceries in 30 mins */}
             <SectionHeader title="Groceries in 30 minutes" />
             <ScrollView
               horizontal
@@ -168,11 +166,19 @@ export const PassengerHomeSheet = ({
           </View>
         </BottomSheetScrollView>
       </BottomSheet>
+
+      {showEnterRoute && (
+        <RouteModel
+          onNext={() => {
+            setShowEnterRoute(false);
+            onNext();
+          }}
+          onClose={() => setShowEnterRoute(false)}
+        />
+      )}
     </View>
   );
 };
-
-// --- Sub-Components ---
 
 const ServiceSmallCard = ({
   title,

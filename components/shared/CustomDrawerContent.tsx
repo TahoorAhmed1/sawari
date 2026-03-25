@@ -16,7 +16,7 @@ import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 export default function CustomDrawerContent(
-  _props: DrawerContentComponentProps,
+  _props: DrawerContentComponentProps
 ) {
   const router = useRouter();
 
@@ -67,7 +67,7 @@ export default function CustomDrawerContent(
         <DrawerItem
           icon={<Globe color="#6b7280" size={23} strokeWidth={1.7} />}
           label="City to City"
-          onPress={() => router.push("/(passenger)")}
+          onPress={() => router.push("/(passenger)/citytocity")}
         />
         <DrawerItem
           icon={<Truck color="#6b7280" size={23} strokeWidth={1.7} />}

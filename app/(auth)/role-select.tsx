@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -9,7 +9,7 @@ export default function RoleSelectScreen() {
 
   const onPick = (role: "passenger" | "driver") => {
     router.push({
-      pathname: "/(auth)/intro-profile" as never,
+      pathname: "/(auth)/phone-intro-profile" as never,
       params: { role },
     });
   };

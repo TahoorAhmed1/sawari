@@ -10,12 +10,14 @@ export default function Index() {
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId:
       "436626233053-m32tv0kgtk8p0b8todjk2326rc5p7dmg.apps.googleusercontent.com",
+    webClientId:
+      "436626233053-4fmep61k7jfnpjt0g17nv69ftcpv3hr0.apps.googleusercontent.com",
+    redirectUri: "sawari://redirect",
   });
 
   React.useEffect(() => {
     if (response?.type === "success") {
-      // Authentication successful, navigate to role selection
-      router.push("/(auth)/role-select");
+      router.push("/(auth)/passkey");
     }
   }, [response, router]);
 
@@ -23,7 +25,6 @@ export default function Index() {
     <SafeAreaView className="flex-1 bg-white">
       <StatusBar barStyle="dark-content" />
 
-      {/* Brand Header */}
       <View className="items-center mt-12">
         <View className="flex-row items-center">
           <View className="bg-[#C2FF12] w-9 h-9 rounded-xl items-center justify-center mr-2">
@@ -35,14 +36,7 @@ export default function Index() {
         </View>
       </View>
 
-      {/* Illustration & Text */}
       <View className="flex-1 justify-center items-center px-10">
-        {/* <Image
-          source={require("../../assets/images/handshake.png")}
-          className="w-full h-72"
-          resizeMode="contain"
-        /> */}
-
         <View className="mt-10">
           <Text className="text-[32px] font-black text-center text-slate-900 leading-[38px]">
             Your app for fair deals
@@ -59,7 +53,6 @@ export default function Index() {
         </View>
       </View>
 
-      {/* Footer Buttons */}
       <View className="px-5 pb-10">
         <TouchableOpacity
           onPress={() => router.push("/(auth)/phone-login")}
@@ -71,7 +64,7 @@ export default function Index() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => promptAsync()}
+          onPress={() => router.push("/(passenger)")}
           disabled={!request}
           className="bg-gray-100 h-[60px] rounded-2xl flex-row justify-center items-center"
         >

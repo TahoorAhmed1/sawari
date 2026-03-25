@@ -3,7 +3,7 @@ import BottomSheet, {
   BottomSheetFooter,
   BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
-import { Pencil } from "lucide-react-native";
+import { ArrowLeft, Pencil } from "lucide-react-native";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
@@ -71,10 +71,10 @@ export function SelectRideScreen({ onFindOffers, onBack }: any) {
   const [autoAccept, setAutoAccept] = useState(false);
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const snapPoints = useMemo(() => ["45%", "90%"], []);
+  const snapPoints = useMemo(() => ["50%", "80%"], []);
   const selectedRide = useMemo(
     () => RIDE_OPTIONS.find((r) => r.id === selected)!,
-    [selected],
+    [selected]
   );
 
   // Use useCallback for the footer to prevent re-renders
@@ -116,7 +116,7 @@ export function SelectRideScreen({ onFindOffers, onBack }: any) {
         </View>
       </BottomSheetFooter>
     ),
-    [fare, autoAccept],
+    [fare, autoAccept]
   );
 
   return (
@@ -133,28 +133,25 @@ export function SelectRideScreen({ onFindOffers, onBack }: any) {
           }}
         />
 
-        {/* Custom Header (Location Box) */}
-        <View className="absolute top-12 left-4 right-4 bg-white rounded-2xl px-4 py-3 shadow-lg ">
-          <View className="flex-row items-center mb-3">
-            <View className="w-4 h-4 rounded-full border-[3.5px] border-green-600 mr-3" />
-            <Text className="text-[17px] font-bold">Karachi</Text>
+        <View className="absolute top-12 left-4 right-4 flex-row gap-2 ">
+          <TouchableOpacity className="w-12 h-12 bg-white rounded-full items-center justify-center shadow-lg">
+            <ArrowLeft size={22} color="#333" />
+          </TouchableOpacity>
+          <View className=" bg-white rounded-2xl px-4 py-3 shadow-lg w-full flex-1 ">
+            <View className="flex-row items-center mb-3">
+              <View className="w-4 h-4 rounded-full border-[3.5px] border-green-600 mr-3" />
+              <Text className="text-[17px] font-bold">Karachi</Text>
+            </View>
+            <View className="h-[1px] bg-gray-100 ml-7 mb-3" />
+            <View className="flex-row items-center">
+              <View className="w-4 h-4 rounded-full border-[3.5px] border-red-400 mr-3" />
+              <Text className="text-[17px] font-bold flex-1">
+                Hashmanis Hospital{" "}
+                <Text className="text-gray-400 font-normal">Numaish</Text>
+              </Text>
+              <Ionicons name="add" size={24} color="#000" />
+            </View>
           </View>
-          <View className="h-[1px] bg-gray-100 ml-7 mb-3" />
-          <View className="flex-row items-center">
-            <View className="w-4 h-4 rounded-full border-[3.5px] border-red-400 mr-3" />
-            <Text className="text-[17px] font-bold flex-1">
-              Hashmanis Hospital{" "}
-              <Text className="text-gray-400 font-normal">Numaish</Text>
-            </Text>
-            <Ionicons name="add" size={24} color="#000" />
-          </View>
-        </View>
-        <View className="absolute top-[160px] left-4 right-4 bg-white rounded-xl flex-row items-center px-4 py-3 shadow-md">
-          <Ionicons name="receipt-outline" size={20} color="#000" />
-          <Text className="flex-1 ml-3 text-[14px] font-bold text-gray-800">
-            Got promo code? Use it here
-          </Text>
-          <Ionicons name="chevron-forward" size={18} color="#000" />
         </View>
       </View>
 
