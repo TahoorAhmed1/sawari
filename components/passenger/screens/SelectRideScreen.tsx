@@ -1,225 +1,239 @@
 import { Ionicons } from "@expo/vector-icons";
 import BottomSheet, {
+  BottomSheetFooter,
   BottomSheetScrollView,
-  BottomSheetView,
 } from "@gorhom/bottom-sheet";
-import { Navigation, Pencil } from "lucide-react-native";
-import React, { useMemo, useRef, useState } from "react";
-import {
-  Dimensions,
-  StyleSheet,
-  Switch,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from "react-native-maps";
+import { Pencil } from "lucide-react-native";
+import React, { useCallback, useMemo, useRef, useState } from "react";
+import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
-import { RIDE_OPTIONS } from "../data";
+const RIDE_OPTIONS = [
+  {
+    id: "moto",
+    name: "Moto",
+    emoji: "🏍️",
+    seats: 1,
+    eta: "2 min",
+    tag: "No traffic, lower prices",
+    fare: 190,
+  },
+  {
+    id: "mini",
+    name: "Mini",
+    emoji: "🚗",
+    seats: 4,
+    eta: "3 min",
+    tag: "Lower fares, no AC",
+    fare: 401,
+  },
+  {
+    id: "rickshaw",
+    name: "Rickshaw",
+    emoji: "🛺",
+    seats: 3,
+    eta: "2 min",
+    tag: "Lower fares",
+    fare: 295,
+  },
+  {
+    id: "ride_ac",
+    name: "Ride A/C",
+    emoji: "🚙",
+    seats: 4,
+    eta: "4 min",
+    tag: "Cars with AC",
+    fare: 464,
+  },
+  {
+    id: "premium",
+    name: "Premium",
+    emoji: "🚘",
+    seats: 4,
+    eta: "2 min",
+    tag: "Sedans with AC",
+    fare: 681,
+  },
+  {
+    id: "couriers",
+    name: "Couriers",
+    emoji: "📦",
+    seats: "up to 20kg",
+    eta: "",
+    tag: "Request package delivery",
+    fare: 0,
+  },
+];
 
-const { height } = Dimensions.get("window");
-
-interface SelectRideScreenProps {
-  onFindOffers: () => void;
-  onPaymentPress: () => void;
-  onBack: () => void;
-}
-
-export function SelectRideScreen({
-  onFindOffers,
-  onPaymentPress,
-  onBack,
-}: SelectRideScreenProps) {
+export function SelectRideScreen({ onFindOffers, onBack }: any) {
   const [selected, setSelected] = useState("moto");
-  const [fare, setFare] = useState(235);
+  const [fare, setFare] = useState(190);
   const [autoAccept, setAutoAccept] = useState(false);
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const snapPoints = useMemo(() => ["50%", "80r%"], []);
-
+  const snapPoints = useMemo(() => ["45%", "90%"], []);
   const selectedRide = useMemo(
     () => RIDE_OPTIONS.find((r) => r.id === selected)!,
-    [selected]
+    [selected],
   );
 
-  return (
-    <View className="flex-1">
-      <View className="flex-1">
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          style={StyleSheet.absoluteFillObject}
-          initialRegion={{
-            latitude: 24.855,
-            longitude: 67.015,
-            latitudeDelta: 0.04,
-            longitudeDelta: 0.04,
-          }}
-        >
-          <Marker coordinate={{ latitude: 24.8607, longitude: 67.0104 }}>
-            <View className="w-4 h-4 rounded-full bg-green-600 border-2 border-white" />
-          </Marker>
-          <Marker coordinate={{ latitude: 24.845, longitude: 67.022 }}>
-            <View className="w-4 h-4 rounded-full bg-red-400 border-2 border-white" />
-          </Marker>
-          <Polyline
-            coordinates={[
-              { latitude: 24.8607, longitude: 67.0104 },
-              { latitude: 24.845, longitude: 67.022 },
-            ]}
-            strokeColor="#2563EB"
-            strokeWidth={4}
-          />
-        </MapView>
-
-        <View className="absolute top-4 left-4 right-4 bg-white rounded-2xl px-5 py-4 shadow-md">
-          <View className="flex-row items-center mb-3">
-            <View className="w-4 h-4 rounded-full border-[3px] border-green-600 mr-3" />
-            <Text className="text-[15px] font-bold text-gray-900 flex-1">
-              Plot 21
-            </Text>
-            <TouchableOpacity className="w-8 h-8 rounded-full bg-gray-100 items-center justify-center">
-              <Text className="text-xl">+</Text>
-            </TouchableOpacity>
-          </View>
-          <View className="flex-row items-start">
-            <View className="w-4 h-4 rounded-full border-[3px] border-red-400 mr-3 mt-0.5" />
-            <Text className="text-[15px] font-bold text-gray-900 flex-1 leading-5">
-              Hashmanis Hospital Numaish{" "}
-              <Text className="text-gray-400 font-normal">~11 min.</Text>
-            </Text>
-          </View>
-        </View>
-
-        <TouchableOpacity
-          onPress={onBack}
-          className="absolute bottom-4 left-4 w-10 h-10 bg-white rounded-full items-center justify-center shadow"
-        >
-          <Ionicons name="arrow-back" size={20} color="#333" />
-        </TouchableOpacity>
-      </View>
-
-      <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints} index={0}>
-        <BottomSheetScrollView
-          className="flex-1 bg-white"
-          showsVerticalScrollIndicator={false}
-        >
-          <View className="items-center pt-2 pb-1">
-            <View className="w-10 h-1 rounded-full bg-gray-300" />
-          </View>
-
-          <View className="mx-4 mt-3 border border-gray-200 rounded-2xl overflow-hidden mb-2">
-            <View className="flex-row items-center px-4 py-4">
-              <Text className="text-4xl mr-4">{selectedRide.emoji}</Text>
-              <View className="flex-1">
-                <View className="flex-row items-center gap-1">
-                  <Text className="text-[16px] font-black text-gray-900">
-                    {selectedRide.name}
-                  </Text>
-                  <View className="w-4 h-4 rounded-full border border-gray-400 items-center justify-center ml-1">
-                    <Text className="text-[9px] text-gray-500 font-bold">
-                      i
-                    </Text>
-                  </View>
-                </View>
-                <Text className="text-[13px] text-gray-500 mt-0.5">
-                  👤 {selectedRide.seats} • {selectedRide.eta}
-                </Text>
-                <Text className="text-[12px] text-gray-400 mt-0.5">
-                  {selectedRide.tag}
-                </Text>
-              </View>
-              <TouchableOpacity className="w-8 h-8 rounded-full bg-gray-100 items-center justify-center">
-                <Pencil size={14} color="#333" />
-              </TouchableOpacity>
+  // Use useCallback for the footer to prevent re-renders
+  const renderFooter = useCallback(
+    (props: any) => (
+      <BottomSheetFooter {...props} bottomInset={0}>
+        <View className="bg-white px-5 pb-5 pt-2 border-t border-gray-100 shadow-2xl">
+          <View className="flex-row items-center justify-between mb-4 px-1">
+            <View className="flex-row items-center">
+              <Ionicons
+                name="send"
+                size={20}
+                color="#000"
+                style={{ transform: [{ rotate: "-45deg" }] }}
+              />
+              <Text className="ml-3 text-[13px] font-black text-gray-800">
+                Auto-accept offer of PKR{fare}
+              </Text>
             </View>
-
-            <View className="flex-row items-center px-4 pb-4">
-              <TouchableOpacity
-                className="w-11 h-11 rounded-full bg-gray-100 items-center justify-center"
-                onPress={() => setFare((f) => Math.max(200, f - 5))}
-              >
-                <Text className="text-xl font-bold text-gray-700">−</Text>
-              </TouchableOpacity>
-              <View className="flex-1 items-center">
-                <Text className="text-[22px] font-black text-gray-900">
-                  PKR{fare}
-                </Text>
-                <Text className="text-[12px] text-gray-400">
-                  Recommended fare: PKR235
-                </Text>
-              </View>
-              <TouchableOpacity
-                className="w-11 h-11 rounded-full bg-gray-100 items-center justify-center"
-                onPress={() => setFare((f) => f + 5)}
-              >
-                <Text className="text-xl font-bold text-gray-700">+</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          {RIDE_OPTIONS.filter((r) => r.id !== selected).map((ride) => (
-            <TouchableOpacity
-              key={ride.id}
-              onPress={() => setSelected(ride.id)}
-              activeOpacity={0.75}
-              className="flex-row items-center px-5 py-4 border-b border-gray-50"
-            >
-              <Text className="text-3xl mr-4">{ride.emoji}</Text>
-              <View className="flex-1">
-                <Text className="text-[15px] font-bold text-gray-900">
-                  {ride.name}
-                </Text>
-                {ride.seats > 0 && (
-                  <Text className="text-[12px] text-gray-500 mt-0.5">
-                    👤 {ride.seats} • {ride.eta}
-                  </Text>
-                )}
-                <Text className="text-[12px] text-gray-400">{ride.tag}</Text>
-              </View>
-              {ride.fare ? (
-                <Text className="text-[14px] font-bold text-gray-800">
-                  {ride.fare}
-                </Text>
-              ) : null}
-            </TouchableOpacity>
-          ))}
-
-          <View className="h-24" />
-        </BottomSheetScrollView>
-
-        <BottomSheetView className="bg-white px-4 pb-8 pt-3 border-t border-gray-100">
-          <View className="flex-row items-center mb-3">
-            <Navigation size={18} color="#333" />
-            <Text className="flex-1 ml-3 text-[14px] font-semibold text-gray-800">
-              Auto-accept offer of PKR{fare}
-            </Text>
             <Switch
               value={autoAccept}
               onValueChange={setAutoAccept}
-              trackColor={{ false: "#e5e7eb", true: "#86efac" }}
-              thumbColor={autoAccept ? "#16a34a" : "#fff"}
+              trackColor={{ false: "#E5E7EB", true: "#000" }}
+              thumbColor={"#fff"}
             />
           </View>
 
           <TouchableOpacity
             onPress={onFindOffers}
-            activeOpacity={0.85}
-            className="bg-[#C8F000] rounded-2xl py-4 flex-row items-center justify-center"
+            className="bg-[#BFFF07] rounded-[22px] py-3 flex-row items-center justify-center shadow-sm"
           >
-            <Text className="text-xl mr-2">💵</Text>
-            <Text className="text-[17px] font-black text-gray-900">
+            <View className="mr-3 bg-green-800 w-7 h-5 rounded-md items-center justify-center">
+              <Text className="text-[12px] text-white font-bold">$</Text>
+            </View>
+            <Text className="text-[22px] font-black text-gray-900">
               Find offers
             </Text>
           </TouchableOpacity>
+        </View>
+      </BottomSheetFooter>
+    ),
+    [fare, autoAccept],
+  );
 
-          <TouchableOpacity
-            onPress={onPaymentPress}
-            activeOpacity={0.7}
-            className="mt-3 items-center"
-          >
-            <Text className="text-[12px] text-gray-400">Payment method</Text>
-          </TouchableOpacity>
-        </BottomSheetView>
+  return (
+    <View className="flex-1 bg-white">
+      <View className="flex-1">
+        <MapView
+          provider={PROVIDER_GOOGLE}
+          style={StyleSheet.absoluteFillObject}
+          initialRegion={{
+            latitude: 24.8607,
+            longitude: 67.0104,
+            latitudeDelta: 0.05,
+            longitudeDelta: 0.05,
+          }}
+        />
+
+        {/* Custom Header (Location Box) */}
+        <View className="absolute top-12 left-4 right-4 bg-white rounded-2xl px-4 py-3 shadow-lg ">
+          <View className="flex-row items-center mb-3">
+            <View className="w-4 h-4 rounded-full border-[3.5px] border-green-600 mr-3" />
+            <Text className="text-[17px] font-bold">Karachi</Text>
+          </View>
+          <View className="h-[1px] bg-gray-100 ml-7 mb-3" />
+          <View className="flex-row items-center">
+            <View className="w-4 h-4 rounded-full border-[3.5px] border-red-400 mr-3" />
+            <Text className="text-[17px] font-bold flex-1">
+              Hashmanis Hospital{" "}
+              <Text className="text-gray-400 font-normal">Numaish</Text>
+            </Text>
+            <Ionicons name="add" size={24} color="#000" />
+          </View>
+        </View>
+        <View className="absolute top-[160px] left-4 right-4 bg-white rounded-xl flex-row items-center px-4 py-3 shadow-md">
+          <Ionicons name="receipt-outline" size={20} color="#000" />
+          <Text className="flex-1 ml-3 text-[14px] font-bold text-gray-800">
+            Got promo code? Use it here
+          </Text>
+          <Ionicons name="chevron-forward" size={18} color="#000" />
+        </View>
+      </View>
+
+      <BottomSheet
+        ref={bottomSheetRef}
+        snapPoints={snapPoints}
+        index={0}
+        footerComponent={renderFooter} // PINS THE FOOTER
+      >
+        <BottomSheetScrollView
+          contentContainerStyle={{ paddingBottom: 180 }} // Ensure list scrolls above footer
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Main Selected Card */}
+          <View className="mx-4 mt-2 bg-[#F2F2F2] rounded-[30px] p-1">
+            <View className="bg-white rounded-[28px] p-4 shadow-sm">
+              <View className="flex-row items-center">
+                <Text className="text-5xl mr-3">{selectedRide.emoji}</Text>
+                <View className="flex-1">
+                  <Text className="text-[18px] font-bold">
+                    {selectedRide.name} ⓘ
+                  </Text>
+                  <Text className="text-gray-600 font-bold">
+                    👤 {selectedRide.seats} • {selectedRide.eta}
+                  </Text>
+                  <Text className="text-gray-400">{selectedRide.tag}</Text>
+                </View>
+                <TouchableOpacity className="bg-gray-100 p-2 rounded-full">
+                  <Pencil size={18} color="#000" />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Fare Control */}
+            <View className="flex-row items-center justify-between px-6 py-4">
+              <TouchableOpacity
+                onPress={() => setFare((f) => f - 5)}
+                className="bg-white w-14 h-14 rounded-full items-center justify-center shadow-sm"
+              >
+                <Ionicons name="remove" size={32} color="#000" />
+              </TouchableOpacity>
+              <View className="items-center">
+                <Text className="text-3xl font-black">PKR{fare}</Text>
+                <Text className="text-gray-500 text-xs">
+                  Recommended fare: PKR{fare}
+                </Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => setFare((f) => f + 5)}
+                className="bg-white w-14 h-14 rounded-full items-center justify-center shadow-sm"
+              >
+                <Ionicons name="add" size={32} color="#000" />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Other List Items */}
+          <View className="mt-4">
+            {RIDE_OPTIONS.filter((r) => r.id !== selected).map((ride) => (
+              <TouchableOpacity
+                key={ride.id}
+                onPress={() => setSelected(ride.id)}
+                className="flex-row items-center px-6 py-4"
+              >
+                <Text className="text-4xl mr-4">{ride.emoji}</Text>
+                <View className="flex-1">
+                  <Text className="text-[17px] font-bold">{ride.name}</Text>
+                  <Text className="text-gray-500 font-bold">
+                    👤 {ride.seats} {ride.eta && `• ${ride.eta}`}
+                  </Text>
+                  <Text className="text-gray-400 text-xs">{ride.tag}</Text>
+                </View>
+                <Text className="text-[16px] font-bold">
+                  {ride.fare > 0 ? `~PKR${ride.fare}` : ""}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </BottomSheetScrollView>
       </BottomSheet>
     </View>
   );
