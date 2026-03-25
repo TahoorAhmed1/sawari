@@ -1,3 +1,4 @@
+import * as Google from "expo-auth-session/providers/google";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StatusBar, Text, TouchableOpacity, View } from "react-native";
@@ -5,6 +6,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
   const router = useRouter();
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId:
+      "436626233053-m32tv0kgtk8p0b8todjk2326rc5p7dmg.apps.googleusercontent.com",
+  });
+
+  React.useEffect(() => {
+    if (response?.type === "success") {
+      // Authentication successful, navigate to role selection
+      router.push("/(auth)/role-select");
+    }
+  }, [response, router]);
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -57,7 +70,11 @@ export default function Index() {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity className="bg-gray-100 h-[60px] rounded-2xl flex-row justify-center items-center">
+        <TouchableOpacity
+          onPress={() => promptAsync()}
+          disabled={!request}
+          className="bg-gray-100 h-[60px] rounded-2xl flex-row justify-center items-center"
+        >
           {/* <Image
             source={require("../../assets/images/google-icon.png")}
             className="w-6 h-6 mr-3"
