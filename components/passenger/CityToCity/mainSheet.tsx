@@ -1,10 +1,11 @@
+import { RouteModel } from "@/components/models/RouteModel";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { Info, Search } from "lucide-react-native"; // Optional icons
 import React, { useMemo, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-const MainSheet = ({ setStep }: any) => {
+const MainSheet = ({ setStep, showEnterRoute, setShowEnterRoute }: any) => {
   const snapPoints = useMemo(() => ["58%"], []);
   const [activeCategory, setActiveCategory] = useState("City to city");
 
@@ -21,79 +22,90 @@ const MainSheet = ({ setStep }: any) => {
   ];
 
   return (
-    <BottomSheet
-      snapPoints={snapPoints}
-      handleIndicatorStyle={{ backgroundColor: "#E5E7EB", width: 40 }}
-      backgroundStyle={{ borderRadius: 32 }}
-    >
-      <BottomSheetScrollView
-        contentContainerStyle={{ paddingBottom: 40 }}
-        showsVerticalScrollIndicator={false}
+    <>
+      <BottomSheet
+        snapPoints={snapPoints}
+        handleIndicatorStyle={{ backgroundColor: "#E5E7EB", width: 40 }}
+        backgroundStyle={{ borderRadius: 32 }}
       >
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          className="py-2"
-          style={{ marginBottom: 10 }}
-          contentContainerStyle={{
-            flexDirection: "row",
-            alignItems: "center",
-            paddingHorizontal: 16,
-          }}
+        <BottomSheetScrollView
+          contentContainerStyle={{ paddingBottom: 40 }}
+          showsVerticalScrollIndicator={false}
         >
-          {categories.map((item, index) => (
-            <Category
-              key={index}
-              label={item.label}
-              emoji={item.emoji}
-              active={activeCategory === item.label}
-              hasSnow={item.hasSnow}
-              onPress={() => setActiveCategory(item.label)}
-            />
-          ))}
-        </ScrollView>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            className="py-2"
+            style={{ marginBottom: 10 }}
+            contentContainerStyle={{
+              flexDirection: "row",
+              alignItems: "center",
+              paddingHorizontal: 16,
+            }}
+          >
+            {categories.map((item, index) => (
+              <Category
+                key={index}
+                label={item.label}
+                emoji={item.emoji}
+                active={activeCategory === item.label}
+                hasSnow={item.hasSnow}
+                onPress={() => setActiveCategory(item.label)}
+              />
+            ))}
+          </ScrollView>
 
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#F8FAFC",
-            height: 55,
-            borderRadius: 20,
-            flexDirection: "row",
-            alignItems: "center",
-            paddingHorizontal: 20,
-            marginHorizontal: 16,
-            marginBottom: 10,
-            borderWidth: 1,
-            borderColor: "#F1F5F9",
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#F8FAFC",
+              height: 55,
+              borderRadius: 20,
+              flexDirection: "row",
+              alignItems: "center",
+              paddingHorizontal: 20,
+              marginHorizontal: 16,
+              marginBottom: 10,
+              borderWidth: 1,
+              borderColor: "#F1F5F9",
+            }}
+            onPress={() => setShowEnterRoute(true)}
+          >
+            <Search size={24} color="black" />
+            <Text style={{ marginLeft: 10, fontSize: 18, fontWeight: "bold" }}>
+              Where to & for how much?
+            </Text>
+          </TouchableOpacity>
+
+          <View className=" flex-row items-center justify-between px-4">
+            <View>
+              <ActionCard
+                title="Share your ride"
+                onPress={() => setShowEnterRoute(true)}
+              />
+              <ActionCard
+                title="Request a car"
+                onPress={() => setShowEnterRoute(true)}
+              />
+            </View>
+            <View className="flex-1 h-full">
+              <ActionCard
+                title="Send a parcel"
+                onPress={() => setShowEnterRoute(true)}
+              />
+            </View>
+          </View>
+        </BottomSheetScrollView>
+      </BottomSheet>
+      {showEnterRoute && (
+        <RouteModel
+          onNext={() => {
+            setShowEnterRoute(false);
+            setStep("select");
           }}
-          onPress={() => setStep("route")}
-        >
-          <Search size={24} color="black" />
-          <Text style={{ marginLeft: 10, fontSize: 18, fontWeight: "bold" }}>
-            Where to & for how much?
-          </Text>
-        </TouchableOpacity>
-
-        <View className=" flex-row items-center justify-between px-4">
-          <View>
-            <ActionCard
-              title="Share your ride"
-              onClick={() => setStep("route")}
-            />
-            <ActionCard
-              title="Request a car"
-              onClick={() => setStep("route")}
-            />
-          </View>
-          <View className="flex-1 h-full">
-            <ActionCard
-              title="Send a parcel"
-              onClick={() => setStep("route")}
-            />
-          </View>
-        </View>
-      </BottomSheetScrollView>
-    </BottomSheet>
+          onClose={() => setShowEnterRoute(false)}
+        />
+      )}
+    </>
   );
 };
 
@@ -133,9 +145,9 @@ const Category = ({ label, emoji, active, hasSnow, onPress }: any) => (
   </TouchableOpacity>
 );
 
-const ActionCard = ({ title, onClick }: any) => (
+const ActionCard = ({ title, onPress }: any) => (
   <TouchableOpacity
-    onPress={onClick}
+    onPress={onPress}
     className="h-full"
     style={{
       backgroundColor: "#F9FAFB",

@@ -1,13 +1,39 @@
-import { Ionicons } from "@expo/vector-icons";
 import { ArrowLeft, History, Navigation } from "lucide-react-native";
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import MainSheet from "../CityToCity/mainSheet";
+import { RideChoiceSheet } from "../CityToCity/RideChoiceSheet";
+import { RideScheduleSheet } from "../CityToCity/RideScheduleSheet";
+import { RouteSummaryCard } from "../CityToCity/RouteSummaryCard";
+import { CityStep, RideChoiceId } from "../CityToCity/types";
+
+const ROUTE_DETAILS = {
+  from: "Pakistan, Plot 21, New Karachi Co-Operative Housing Society",
+  to: "Pakistan, Lahore",
+};
+
 export default function CityToCity() {
-  const [step, setStep] = useState<"main" | "route" | "select" | "finding">(
-    "main"
-  );
+  const [step, setStep] = useState<CityStep>("main");
+  const [showEnterRoute, setShowEnterRoute] = useState(false);
+  const [selectedRide, setSelectedRide] = useState<RideChoiceId>("private");
+  const [rideStart, setRideStart] = useState<"now" | "later">("later");
+
+  const handleBack = () => {
+    if (showEnterRoute) {
+      setShowEnterRoute(false);
+      return;
+    }
+
+    if (step === "schedule") {
+      setStep("select");
+      return;
+    }
+
+    if (step === "select") {
+      setStep("main");
+    }
+  };
 
   return (
     <View className="flex-1 bg-white">
@@ -24,28 +50,38 @@ export default function CityToCity() {
         />
 
         <View className="absolute top-12 left-4 right-4 flex-row gap-2 ">
-          <TouchableOpacity className="w-12 h-12 bg-white rounded-full items-center justify-center shadow-lg">
+          <TouchableOpacity
+            className="w-12 h-12 bg-white rounded-full items-center justify-center shadow-lg"
+            onPress={handleBack}
+            activeOpacity={0.85}
+          >
             <ArrowLeft size={22} color="#333" />
           </TouchableOpacity>
-          <View className=" bg-white rounded-2xl px-4 py-3 shadow-lg w-full flex-1 ">
-            <View className="flex-row items-center mb-3">
-              <View className="w-4 h-4 rounded-full border-[3.5px] border-green-600 mr-3" />
-              <Text className="text-[17px] font-bold">Karachi</Text>
-            </View>
-            <View className="h-[1px] bg-gray-100 ml-7 mb-3" />
-            <View className="flex-row items-center">
-              <View className="w-4 h-4 rounded-full border-[3.5px] border-red-400 mr-3" />
-              <Text className="text-[17px] font-bold flex-1">
-                Hashmanis Hospital{" "}
-                <Text className="text-gray-400 font-normal">Numaish</Text>
-              </Text>
-              <Ionicons name="add" size={24} color="#000" />
-            </View>
-          </View>
+          {step !== "main" && !showEnterRoute && (
+            <RouteSummaryCard from={ROUTE_DETAILS.from} to={ROUTE_DETAILS.to} />
+          )}
         </View>
       </View>
 
-      {step === "main" && <MainSheet setStep={setStep} />}
+      {step === "main" && (
+        <MainSheet
+          setShowEnterRoute={setShowEnterRoute}
+          showEnterRoute={showEnterRoute}
+          setStep={setStep}
+        />
+      )}
+
+      {step === "select" && !showEnterRoute && (
+        <RideChoiceSheet
+          onNext={() => setStep("schedule")}
+          onSelectRide={setSelectedRide}
+          selectedRide={selectedRide}
+        />
+      )}
+
+      {step === "schedule" && !showEnterRoute && (
+        <RideScheduleSheet onSelectStart={setRideStart} rideStart={rideStart} />
+      )}
 
       <View
         style={{
@@ -75,5 +111,3 @@ export default function CityToCity() {
     </View>
   );
 }
-
-/* ================= COMPONENTS ================= */

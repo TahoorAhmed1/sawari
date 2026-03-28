@@ -58,7 +58,7 @@ export function RouteModel({ onNext, onClose }: RouteModelScreenProps) {
         pressBehavior="close"
       />
     ),
-    []
+    [],
   );
 
   const handleNext = () => {
