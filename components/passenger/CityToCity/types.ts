@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 
-export type CityStep = "main" | "select" | "schedule";
+export type CityStep = "main" | "select" | "schedule" | "details";
 
 export type RideChoiceId = "private" | "shared" | "parcel";
 

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import MainSheet from "../CityToCity/mainSheet";
+import { ParcelDeliverySheet } from "../CityToCity/ParcelDeliverySheet";
 import { RideChoiceSheet } from "../CityToCity/RideChoiceSheet";
 import { RideScheduleSheet } from "../CityToCity/RideScheduleSheet";
 import { RouteSummaryCard } from "../CityToCity/RouteSummaryCard";
@@ -18,6 +19,7 @@ export default function CityToCity() {
   const [showEnterRoute, setShowEnterRoute] = useState(false);
   const [selectedRide, setSelectedRide] = useState<RideChoiceId>("private");
   const [rideStart, setRideStart] = useState<"now" | "later">("later");
+  const [scheduledLabel, setScheduledLabel] = useState("Wed, 25 Mar 5:45 PM");
 
   const handleBack = () => {
     if (showEnterRoute) {
@@ -27,6 +29,11 @@ export default function CityToCity() {
 
     if (step === "schedule") {
       setStep("select");
+      return;
+    }
+
+    if (step === "details") {
+      setStep("schedule");
       return;
     }
 
@@ -80,7 +87,21 @@ export default function CityToCity() {
       )}
 
       {step === "schedule" && !showEnterRoute && (
-        <RideScheduleSheet onSelectStart={setRideStart} rideStart={rideStart} />
+        <RideScheduleSheet
+          onNext={(nextScheduledLabel) => {
+            setScheduledLabel(nextScheduledLabel);
+            setStep("details");
+          }}
+          onSelectStart={setRideStart}
+          rideStart={rideStart}
+        />
+      )}
+
+      {step === "details" && !showEnterRoute && (
+        <ParcelDeliverySheet
+          onEditSchedule={() => setStep("schedule")}
+          scheduledLabel={scheduledLabel}
+        />
       )}
 
       <View

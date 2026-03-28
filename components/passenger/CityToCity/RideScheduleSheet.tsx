@@ -154,17 +154,23 @@ function WheelColumn({
 }
 
 interface RideScheduleSheetProps {
+  onNext: (scheduledLabel: string) => void;
   onSelectStart: (value: "now" | "later") => void;
   rideStart: "now" | "later";
 }
 
 export function RideScheduleSheet({
+  onNext,
   onSelectStart,
   rideStart,
 }: RideScheduleSheetProps) {
   const [dateIndex, setDateIndex] = useState(0);
   const [timeIndex, setTimeIndex] = useState(21);
   const [meridiemIndex, setMeridiemIndex] = useState(1);
+  const scheduledLabel =
+    rideStart === "now"
+      ? "Now"
+      : `${DATES[dateIndex]} ${TIMES[timeIndex]} ${MERIDIEMS[meridiemIndex]}`;
 
   return (
     <View
@@ -253,6 +259,7 @@ export function RideScheduleSheet({
 
         <TouchableOpacity
           activeOpacity={0.9}
+          onPress={() => onNext(scheduledLabel)}
           className="mt-[18px] h-[62px] items-center justify-center rounded-[18px]"
           style={{ backgroundColor: LIME }}
         >
