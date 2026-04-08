@@ -7,7 +7,12 @@ import { ParcelDeliverySheet } from "../CityToCity/ParcelDeliverySheet";
 import { RideChoiceSheet } from "../CityToCity/RideChoiceSheet";
 import { RideScheduleSheet } from "../CityToCity/RideScheduleSheet";
 import { RouteSummaryCard } from "../CityToCity/RouteSummaryCard";
-import { CityStep, RideChoiceId } from "../CityToCity/types";
+import { SearchingDriversScreen } from "../CityToCity/SearchingDriversScreen";
+import {
+  CityStep,
+  ParcelRequestDetails,
+  RideChoiceId,
+} from "../CityToCity/types";
 
 const ROUTE_DETAILS = {
   from: "Pakistan, Plot 21, New Karachi Co-Operative Housing Society",
@@ -20,6 +25,11 @@ export default function CityToCity() {
   const [selectedRide, setSelectedRide] = useState<RideChoiceId>("private");
   const [rideStart, setRideStart] = useState<"now" | "later">("later");
   const [scheduledLabel, setScheduledLabel] = useState("Wed, 25 Mar 5:45 PM");
+  const [parcelRequest, setParcelRequest] = useState<ParcelRequestDetails>({
+    comments: "Hh",
+    fare: 500,
+    scheduledLabel: "Wed, 25 Mar 5:45 PM",
+  });
 
   const handleBack = () => {
     if (showEnterRoute) {
@@ -37,10 +47,54 @@ export default function CityToCity() {
       return;
     }
 
+    if (step === "searching") {
+      setStep("details");
+      return;
+    }
+
     if (step === "select") {
       setStep("main");
     }
   };
+
+  if (step === "searching" && !showEnterRoute) {
+    return (
+      <View className="flex-1 bg-white">
+        <SearchingDriversScreen
+          onBack={handleBack}
+          request={parcelRequest}
+          routeFrom={ROUTE_DETAILS.from}
+          routeTo={ROUTE_DETAILS.to}
+        />
+
+        <View
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: "white",
+            borderTopWidth: 1,
+            borderColor: "#F1F5F9",
+            flexDirection: "row",
+            paddingTop: 10,
+            paddingBottom: 5,
+            paddingHorizontal: 30,
+          }}
+        >
+          <TouchableOpacity style={{ flex: 1, alignItems: "center" }}>
+            <Navigation size={22} color="black" />
+            <Text style={{ fontWeight: "bold", marginTop: 4 }}>Ride</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={{ flex: 1, alignItems: "center" }}>
+            <History size={22} color="#CBD5E1" />
+            <Text style={{ color: "#94A3B8", marginTop: 4 }}>My orders</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-white">
@@ -100,6 +154,10 @@ export default function CityToCity() {
       {step === "details" && !showEnterRoute && (
         <ParcelDeliverySheet
           onEditSchedule={() => setStep("schedule")}
+          onSubmit={(details) => {
+            setParcelRequest(details);
+            setStep("searching");
+          }}
           scheduledLabel={scheduledLabel}
         />
       )}

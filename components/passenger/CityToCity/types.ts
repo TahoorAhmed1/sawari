@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 
-export type CityStep = "main" | "select" | "schedule" | "details";
+export type CityStep = "main" | "select" | "schedule" | "details" | "searching";
 
 export type RideChoiceId = "private" | "shared" | "parcel";
 
@@ -13,6 +13,12 @@ export interface RideChoice {
   price: string;
   priceNote?: string;
   icon: keyof typeof Ionicons.glyphMap;
+}
+
+export interface ParcelRequestDetails {
+  comments: string;
+  fare: number;
+  scheduledLabel: string;
 }
 
 export const RIDE_CHOICES: RideChoice[] = [

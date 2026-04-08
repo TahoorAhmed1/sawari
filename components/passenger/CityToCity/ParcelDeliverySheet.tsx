@@ -11,15 +11,17 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { LIME } from "./types";
+import { LIME, ParcelRequestDetails } from "./types";
 
 interface ParcelDeliverySheetProps {
   onEditSchedule: () => void;
+  onSubmit: (details: ParcelRequestDetails) => void;
   scheduledLabel: string;
 }
 
 export function ParcelDeliverySheet({
   onEditSchedule,
+  onSubmit,
   scheduledLabel,
 }: ParcelDeliverySheetProps) {
   const [fare, setFare] = useState(0);
@@ -60,7 +62,10 @@ export function ParcelDeliverySheet({
 
     if (!hasComments) {
       setShowCommentsModal(true);
+      return;
     }
+
+    onSubmit({ comments: comments.trim(), fare, scheduledLabel });
   };
 
   const closeFareModal = () => {
