@@ -1,13 +1,47 @@
 import * as Google from "expo-auth-session/providers/google";
 import { useRouter } from "expo-router";
-import React from "react";
-import { StatusBar, Text, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
+import {
+  Dimensions,
+  Image,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import Carousel from "react-native-reanimated-carousel";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+const Logo = require("../assets/images/logo2.png");
+
+const { width } = Dimensions.get("window");
+
+const slides = [
+  {
+    id: 1,
+    title: "Your app for fair deals",
+    subtitle: "Choose rides that are right for you",
+    image: require("../assets/images/riksha.png"),
+  },
+  {
+    id: 2,
+    title: "Set your own price",
+    subtitle: "Negotiate fares directly with drivers",
+    image: require("../assets/images/car.png"),
+  },
+  {
+    id: 3,
+    title: "Safe & reliable rides",
+    subtitle: "Travel confidently every day",
+    image: require("../assets/images/bike.png"),
+  },
+];
 
 export default function Index() {
   const router = useRouter();
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const [request, response, promptAsync] = Google.useAuthRequest({
+  const [request] = Google.useAuthRequest({
     androidClientId:
       "436626233053-m32tv0kgtk8p0b8todjk2326rc5p7dmg.apps.googleusercontent.com",
     webClientId:
@@ -15,72 +49,91 @@ export default function Index() {
     redirectUri: "sawari://redirect",
   });
 
-  React.useEffect(() => {
-    if (response?.type === "success") {
-      router.push("/(auth)/passkey");
-    }
-  }, [response, router]);
+  const renderItem = ({ item }: any) => (
+    <View className="items-center justify-center px-6">
+      <Image
+        source={item.image}
+        resizeMode="contain"
+        style={{ width: 240, height: 200 }}
+      />
+
+      <Text className="text-[26px] font-bold text-center text-slate-900 mt-4">
+        {item.title}
+      </Text>
+
+      <Text className="text-gray-600 text-[16px] text-center mt-3 leading-5 px-4">
+        {item.subtitle}
+      </Text>
+    </View>
+  );
 
   return (
     <SafeAreaView className="flex-1 bg-white">
       <StatusBar barStyle="dark-content" />
 
-      <View className="items-center mt-12">
-        <View className="flex-row items-center">
-          <View className="bg-[#C2FF12] w-9 h-9 rounded-xl items-center justify-center mr-2">
-            <Text className="font-bold text-[10px] text-black">ID</Text>
-          </View>
-          <Text className="text-2xl font-bold tracking-tight text-black">
-            inDrive
-          </Text>
+      {/* Logo */}
+      <View className="items-center mt-10">
+        <Image source={Logo} className="w-20 h-20" resizeMode="contain" />
+      </View>
+
+      {/* Main Illustration Area */}
+      <View className="flex-1 justify-center items-center ">
+        <Carousel
+          width={width}
+          height={350}
+          data={slides}
+          onSnapToItem={(index) => setActiveIndex(index)}
+          renderItem={renderItem}
+          pagingEnabled
+          loop={false}
+        />
+
+        <View className="flex-row justify-center ">
+          {slides.map((_, index) => (
+            <View
+              key={index}
+              className={`mx-1.5 rounded-full transition-all duration-300 ${
+                activeIndex === index
+                  ? "bg-black w-6 h-2.5"
+                  : "bg-gray-300 w-2.5 h-2.5"
+              }`}
+            />
+          ))}
         </View>
       </View>
 
-      <View className="flex-1 justify-center items-center px-10">
-        <View className="mt-10">
-          <Text className="text-[32px] font-black text-center text-slate-900 leading-[38px]">
-            Your app for fair deals
-          </Text>
-          <Text className="text-gray-600 text-[17px] text-center mt-3 font-medium">
-            Choose rides that are right for you
-          </Text>
-        </View>
-
-        {/* Dots */}
-        <View className="flex-row mt-14">
-          <View className="h-2 w-2 rounded-full bg-black mx-1" />
-          <View className="h-2 w-2 rounded-full bg-gray-200 mx-1" />
-        </View>
-      </View>
-
-      <View className="px-5 pb-10">
+      {/* Buttons Section */}
+      <View className="px-6 pb-12">
+        {/* Continue with Phone - Your Theme Color */}
         <TouchableOpacity
           onPress={() => router.push("/(auth)/phone-login")}
-          className="bg-[#C2FF12] h-[60px] rounded-2xl items-center justify-center mb-3"
+          className="bg-primary h-[56px] rounded-2xl items-center justify-center shadow-sm active:opacity-90"
         >
-          <Text className="text-black font-bold text-lg">
+          <Text className="text-white font-semibold text-[17px]">
             Continue with phone
           </Text>
         </TouchableOpacity>
 
+        {/* Continue with Google */}
         <TouchableOpacity
-          onPress={() => router.push("/(passenger)")}
           disabled={!request}
-          className="bg-gray-100 h-[60px] rounded-2xl flex-row justify-center items-center"
+          onPress={() => router.push("/(passenger)")}
+          className="mt-3 bg-white border border-gray-200 h-[56px] rounded-2xl flex-row items-center justify-center shadow-sm active:bg-gray-50"
         >
-          {/* <Image
-            source={require("../../assets/images/google-icon.png")}
-            className="w-6 h-6 mr-3"
-          /> */}
-          <Text className="text-black font-bold text-lg">
+          <Image
+            source={require("../assets/icons/google.png")}
+            style={{ width: 24, height: 24, marginRight: 12 }}
+          />
+          <Text className="text-black font-semibold text-[17px]">
             Continue with Google
           </Text>
         </TouchableOpacity>
 
-        <Text className="text-center text-gray-500 text-[12px] mt-6 px-4">
+        {/* Terms & Privacy */}
+        <Text className="text-center text-gray-400 text-[13px] mt-8 px-4 leading-[18px]">
           Joining our app means you agree with our{" "}
-          <Text className="underline">Terms of Use</Text> and{" "}
-          <Text className="underline">Privacy Policy</Text>
+          <Text className="text-black underline">Terms of Use</Text> and{" "}
+          <Text className="text-black underline">Privacy Policy</Text>
         </Text>
       </View>
     </SafeAreaView>

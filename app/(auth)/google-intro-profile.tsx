@@ -2,13 +2,13 @@ import { Entypo, Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useMemo, useState } from "react";
 import {
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -45,7 +45,7 @@ export default function IntroProfileScreen() {
 
           <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
             {/* Header */}
-            <Text className="text-[32px] font-bold text-gray-900 mt-6 tracking-tight">
+            <Text className="text-[32px] font-bold text-black mt-6 tracking-tight">
               Confirm your information
             </Text>
 
@@ -55,7 +55,7 @@ export default function IntroProfileScreen() {
                 <View className="w-32 h-32 rounded-full bg-[#F3F4F6]" />
                 <TouchableOpacity
                   activeOpacity={0.8}
-                  className="absolute bottom-1 right-1 bg-[#D4FF1E] w-9 h-9 rounded-full items-center justify-center border-4 border-white"
+                  className="absolute bottom-1 right-1 bg-primary w-9 h-9 rounded-full items-center justify-center border-4 border-white"
                 >
                   <Entypo name="plus" size={20} color="black" />
                 </TouchableOpacity>
@@ -68,7 +68,7 @@ export default function IntroProfileScreen() {
               <View className="bg-[#F3F4F6] rounded-xl px-4 py-3">
                 <Text className="text-gray-400 text-sm font-medium">Name</Text>
                 <TextInput
-                  className="text-xl text-black font-medium mt-0.5"
+                  className="text-xl text-white font-medium mt-0.5"
                   value={firstName}
                   onChangeText={setFirstName}
                 />
@@ -94,7 +94,7 @@ export default function IntroProfileScreen() {
                   <Text className="text-lg ml-2 font-medium">+92</Text>
                 </View>
                 <TextInput
-                  className="flex-1 text-lg text-black font-medium"
+                  className="flex-1 text-lg text-white font-medium"
                   placeholder=""
                   value={phone}
                   onChangeText={setPhone}
@@ -109,10 +109,10 @@ export default function IntroProfileScreen() {
               onPress={() => router.replace(nextRoute as any)}
               activeOpacity={0.9}
               className={`h-16 rounded-[20px] items-center justify-center ${
-                canContinue ? "bg-[#D4FF1E]" : "bg-[#F3F4F6]"
+                canContinue ? "bg-primary" : "bg-[#F3F4F6]"
               }`}
             >
-              <Text className="text-2xl font-bold text-black">Next</Text>
+              <Text className="text-2xl font-bold text-white">Next</Text>
             </TouchableOpacity>
           </View>
         </View>

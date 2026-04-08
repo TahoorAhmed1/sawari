@@ -24,7 +24,7 @@ export const PrimaryButton = ({
       case "outline":
         return "bg-transparent border-2 border-gray-200";
       default:
-        return "bg-[#C2FF12]";
+        return "bg-primary";
     }
   };
 
@@ -38,7 +38,7 @@ export const PrimaryButton = ({
       {loading ? (
         <ActivityIndicator color="black" />
       ) : (
-        <Text className="text-black font-bold text-lg">{title}</Text>
+        <Text className="text-white font-bold text-lg">{title}</Text>
       )}
     </TouchableOpacity>
   );

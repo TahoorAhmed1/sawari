@@ -29,7 +29,7 @@ export default function SafetyScreen() {
           />
           <Text className="text-white font-bold text-xl ml-3">Call 15</Text>
         </TouchableOpacity>
-        <Text className="text-2xl font-black mb-6">
+        <Text className="text-2xl font-bold mb-6">
           How you&apos;re protected
         </Text>
         <View className="flex-row flex-wrap justify-between">
@@ -59,7 +59,7 @@ const SafetyTopCard = ({ icon, label }: any) => (
 const SafetyFeatureCard = ({ title, icon }: any) => (
   <TouchableOpacity className="bg-gray-50 w-[48%] h-36 p-4 rounded-2xl mb-4">
     <Text className="font-bold text-slate-800 leading-tight">{title}</Text>
-    <View className="absolute bottom-4 right-4 bg-[#C2FF12] p-2 rounded-xl rotate-12">
+    <View className="absolute bottom-4 right-4 bg-primary p-2 rounded-xl rotate-12">
       <Ionicons name={icon} size={20} color="black" />
     </View>
   </TouchableOpacity>

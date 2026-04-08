@@ -23,18 +23,28 @@ export default function PasskeyScreen() {
 
         <View className="items-center mt-5 mb-8">
           <View className="w-40 h-40 rounded-full bg-lime-100 items-center justify-center">
-            <MaterialCommunityIcons name="fingerprint" size={88} color="#111827" />
+            <MaterialCommunityIcons
+              name="fingerprint"
+              size={88}
+              color="#111827"
+            />
           </View>
         </View>
 
-        <Text className="text-4xl font-black text-gray-900 leading-tight">
+        <Text className="text-4xl font-bold text-black leading-tight">
           Fast and secure login with a passkey
         </Text>
-        <Text className="text-2xl text-gray-600 mt-3">No more waiting for the code</Text>
+        <Text className="text-2xl text-black mt-3">
+          No more waiting for the code
+        </Text>
 
         <View className="mt-8">
           <View className="flex-row items-start mb-4">
-            <MaterialCommunityIcons name="fingerprint" size={22} color="#111827" />
+            <MaterialCommunityIcons
+              name="fingerprint"
+              size={22}
+              color="#111827"
+            />
             <Text className="text-xl text-gray-800 ml-3 flex-1 leading-7">
               Sign in with your fingerprint, face, PIN or pattern. We don&apos;t
               collect this info.
@@ -42,7 +52,11 @@ export default function PasskeyScreen() {
           </View>
 
           <View className="flex-row items-start">
-            <Ionicons name="shield-checkmark-outline" size={22} color="#111827" />
+            <Ionicons
+              name="shield-checkmark-outline"
+              size={22}
+              color="#111827"
+            />
             <Text className="text-xl text-gray-800 ml-3 flex-1 leading-7">
               Passkey is more secure, stored only on your device account.
             </Text>
@@ -53,9 +67,11 @@ export default function PasskeyScreen() {
           <TouchableOpacity
             onPress={goNext}
             activeOpacity={0.9}
-            className="h-14 rounded-2xl items-center justify-center bg-[#C2FF12]"
+            className="h-14 rounded-2xl items-center justify-center bg-primary"
           >
-            <Text className="text-2xl font-semibold text-black">Create passkey</Text>
+            <Text className="text-2xl font-semibold text-white">
+              Create passkey
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity

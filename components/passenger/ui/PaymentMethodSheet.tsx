@@ -1,7 +1,7 @@
 import {
-  BottomSheetModal,
-  BottomSheetModalProvider,
-  BottomSheetView,
+    BottomSheetModal,
+    BottomSheetModalProvider,
+    BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import React, { useEffect, useRef, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
@@ -75,13 +75,13 @@ export function PaymentMethodSheet({
             <CloseButton onPress={onClose} />
           </View>
 
-          <Text className="text-[24px] font-black text-gray-900 mb-6">
+          <Text className="text-[24px] font-bold text-black mb-6">
             Choose a payment method
           </Text>
 
           {methods.map((group) => (
             <View key={group.section} className="mb-5">
-              <Text className="text-[17px] font-black text-gray-900 mb-0.5">
+              <Text className="text-[17px] font-bold text-black mb-0.5">
                 {group.section}
               </Text>
               {group.sub ? (

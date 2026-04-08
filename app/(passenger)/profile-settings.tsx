@@ -25,7 +25,7 @@ export default function ProfileSettingsScreen() {
           <View className="w-28 h-28 bg-gray-100 rounded-full items-center justify-center border border-gray-100">
             <Ionicons name="person-outline" size={60} color="black" />
           </View>
-          <TouchableOpacity className="absolute bottom-0 right-0 bg-[#C2FF12] w-10 h-10 rounded-full items-center justify-center border-4 border-white">
+          <TouchableOpacity className="absolute bottom-0 right-0 bg-primary w-10 h-10 rounded-full items-center justify-center border-4 border-white">
             <Ionicons name="add" size={24} color="black" />
           </TouchableOpacity>
         </View>
@@ -60,8 +60,8 @@ export default function ProfileSettingsScreen() {
       </View>
 
       <View className="mt-auto px-5 pb-6">
-        <TouchableOpacity className="bg-[#C2FF12] h-16 rounded-2xl items-center justify-center shadow-sm">
-          <Text className="font-black text-xl">Save</Text>
+        <TouchableOpacity className="bg-primary h-16 rounded-2xl items-center justify-center shadow-sm">
+          <Text className="font-bold text-xl">Save</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

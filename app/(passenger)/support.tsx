@@ -40,7 +40,7 @@ export default function SupportScreen() {
 
 const SectionHeader = ({ title }: { title: string }) => (
   <View className="px-5 py-6">
-    <Text className="text-lg font-black text-slate-900">{title}</Text>
+    <Text className="text-lg font-bold text-slate-900">{title}</Text>
   </View>
 );
 

@@ -28,10 +28,10 @@ export default function CustomDrawerContent(
         activeOpacity={0.7}
         className="flex-row items-center px-5 py-5 gap-4"
       >
-        <View className="w-[52px] h-[52px] rounded-full bg-[#3b82f6] items-center justify-center">
+        <View className="w-[52px] h-[52px] rounded-full bg-primary items-center justify-center">
           <User color="#fff" size={30} strokeWidth={2} />
         </View>
-        <Text className="flex-1 text-[21px] font-semibold text-gray-900 tracking-tight">
+        <Text className="flex-1 text-[21px] font-semibold text-black tracking-tight">
           Tahoor
         </Text>
         <ChevronRight color="#111827" size={22} strokeWidth={2.5} />
@@ -97,9 +97,9 @@ export default function CustomDrawerContent(
         <TouchableOpacity
           onPress={() => router.push("/(passenger)/income-selection")}
           activeOpacity={0.85}
-          className="bg-[#C2FF12] h-[60px] rounded-[18px] items-center justify-center mb-5"
+          className="bg-primary h-[60px] rounded-[18px] items-center justify-center mb-5"
         >
-          <Text className="text-[18px] font-bold text-gray-900 tracking-wide">
+          <Text className="text-[18px] font-bold text-white tracking-wide">
             Driver mode
           </Text>
         </TouchableOpacity>
@@ -180,7 +180,7 @@ const DrawerItem = ({
 
     {/* Label */}
     <Text
-      className={`flex-1 text-[16px] text-gray-900 ${
+      className={`flex-1 text-[16px] text-black ${
         isActive ? "font-medium" : "font-normal"
       }`}
     >

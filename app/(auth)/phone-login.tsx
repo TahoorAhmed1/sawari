@@ -36,16 +36,16 @@ export default function PhoneLoginScreen() {
       >
         <TouchableOpacity
           onPress={() => router.back()}
-          className="w-12 h-12 items-center justify-center ml-2 mt-1"
+          className="w-12 h-12 items-center justify-center ml-2 mt-2"
         >
           <Ionicons name="arrow-back" size={26} color="black" />
         </TouchableOpacity>
 
         <View className="px-5 flex-1">
-          <Text className="text-4xl font-black text-black leading-tight mt-2">
+          <Text className="text-4xl font-bold text-black  mt-4">
             Join us via phone number
           </Text>
-          <Text className="text-gray-600 text-xl mt-2 mb-12">
+          <Text className="text-black text-xl mt-2 mb-8">
             We&apos;ll text a code to verify your phone
           </Text>
 
@@ -81,13 +81,13 @@ export default function PhoneLoginScreen() {
           <TouchableOpacity
             onPress={handleNext}
             activeOpacity={0.8}
-            className={`h-14 rounded-2xl items-center justify-center ${
-              phone.length >= 10 ? "bg-[#C2FF12]" : "bg-gray-100"
+            className={`h-16 rounded-2xl items-center justify-center ${
+              phone.length >= 10 ? "bg-primary" : "bg-gray-100"
             }`}
           >
             <Text
               className={`font-semibold text-2xl ${
-                phone.length >= 10 ? "text-black" : "text-gray-400"
+                phone.length >= 10 ? "text-white" : "text-gray-400"
               }`}
             >
               Next

@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import BottomSheet, {
-  BottomSheetFooter,
-  BottomSheetScrollView,
+    BottomSheetFooter,
+    BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
 import { ArrowLeft, Pencil } from "lucide-react-native";
 import React, { useCallback, useMemo, useRef, useState } from "react";
@@ -90,7 +90,7 @@ export function SelectRideScreen({ onFindOffers, onBack }: any) {
                 color="#000"
                 style={{ transform: [{ rotate: "-45deg" }] }}
               />
-              <Text className="ml-3 text-[13px] font-black text-gray-800">
+              <Text className="ml-3 text-[13px] font-bold text-gray-800">
                 Auto-accept offer of PKR{fare}
               </Text>
             </View>
@@ -109,7 +109,7 @@ export function SelectRideScreen({ onFindOffers, onBack }: any) {
             <View className="mr-3 bg-green-800 w-7 h-5 rounded-md items-center justify-center">
               <Text className="text-[12px] text-white font-bold">$</Text>
             </View>
-            <Text className="text-[22px] font-black text-gray-900">
+            <Text className="text-[22px] font-bold text-black">
               Find offers
             </Text>
           </TouchableOpacity>
@@ -174,7 +174,7 @@ export function SelectRideScreen({ onFindOffers, onBack }: any) {
                   <Text className="text-[18px] font-bold">
                     {selectedRide.name} ⓘ
                   </Text>
-                  <Text className="text-gray-600 font-bold">
+                  <Text className="text-black font-bold">
                     👤 {selectedRide.seats} • {selectedRide.eta}
                   </Text>
                   <Text className="text-gray-400">{selectedRide.tag}</Text>
@@ -194,7 +194,7 @@ export function SelectRideScreen({ onFindOffers, onBack }: any) {
                 <Ionicons name="remove" size={32} color="#000" />
               </TouchableOpacity>
               <View className="items-center">
-                <Text className="text-3xl font-black">PKR{fare}</Text>
+                <Text className="text-3xl font-bold">PKR{fare}</Text>
                 <Text className="text-gray-500 text-xs">
                   Recommended fare: PKR{fare}
                 </Text>

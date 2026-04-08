@@ -1,7 +1,4 @@
-import {
-  BottomSheetModal,
-  BottomSheetView
-} from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { X } from "lucide-react-native";
 import React, { useRef } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -87,8 +84,8 @@ export function DriverOfferScreen({
       >
         <BottomSheetView className="flex-1 px-5 pb-10">
           <View className="flex-row items-baseline gap-3 mb-4">
-            <Text className="text-[28px] font-black text-gray-900">PKR259</Text>
-            <Text className="text-[24px] font-black text-gray-400">3 min</Text>
+            <Text className="text-[28px] font-bold text-black">PKR259</Text>
+            <Text className="text-[24px] font-bold text-gray-400">3 min</Text>
           </View>
 
           <View className="flex-row items-center mb-5">
@@ -97,15 +94,13 @@ export function DriverOfferScreen({
                 <Text className="text-3xl">👨</Text>
               </View>
               <View className="absolute -bottom-1 -right-1 w-5 h-5 bg-blue-600 rounded-full items-center justify-center border border-white">
-                <Text className="text-[8px] text-white font-black">✓</Text>
+                <Text className="text-[8px] text-white font-bold">✓</Text>
               </View>
             </View>
 
             <View className="flex-1">
               <View className="flex-row items-center gap-2">
-                <Text className="text-[16px] font-black text-gray-900">
-                  Sajjad
-                </Text>
+                <Text className="text-[16px] font-bold text-black">Sajjad</Text>
                 <Text className="text-[14px]">⭐</Text>
                 <Text className="text-[14px] font-bold text-gray-700">
                   4.94
@@ -136,9 +131,7 @@ export function DriverOfferScreen({
               activeOpacity={0.85}
               className="flex-1 bg-[#C8F000] rounded-2xl py-4 items-center"
             >
-              <Text className="text-[16px] font-black text-gray-900">
-                Accept
-              </Text>
+              <Text className="text-[16px] font-bold text-black">Accept</Text>
             </TouchableOpacity>
           </View>
         </BottomSheetView>

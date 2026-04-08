@@ -1,16 +1,16 @@
 import BottomSheet, {
-  BottomSheetModalProvider,
-  BottomSheetView,
+    BottomSheetModalProvider,
+    BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { Navigation } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  Animated,
-  StyleSheet,
-  Switch,
-  Text,
-  TouchableOpacity,
-  View,
+    Animated,
+    StyleSheet,
+    Switch,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import MapView, { Polyline, PROVIDER_GOOGLE } from "react-native-maps";
 
@@ -115,14 +115,14 @@ export function FindingRideScreen({
               <Text className="text-[16px] font-bold text-gray-800 flex-1 leading-6 pr-4">
                 Good fare. Your request gets priority
               </Text>
-              <Text className="text-[22px] font-black text-gray-900">
+              <Text className="text-[22px] font-bold text-black">
                 0:{seconds.toString().padStart(2, "0")}
               </Text>
             </View>
 
             <View className="h-[3px] bg-gray-200 rounded-full mb-5 overflow-hidden">
               <Animated.View
-                className="h-full bg-gray-900 rounded-full"
+                className="h-full bg-black rounded-full"
                 style={{ width: progressWidth }}
               />
             </View>
@@ -134,7 +134,7 @@ export function FindingRideScreen({
               >
                 <Text className="text-[13px] text-gray-500">-5</Text>
               </TouchableOpacity>
-              <Text className="flex-1 text-center text-[24px] font-black text-gray-900">
+              <Text className="flex-1 text-center text-[24px] font-bold text-black">
                 PKR{fare}
               </Text>
               <TouchableOpacity
