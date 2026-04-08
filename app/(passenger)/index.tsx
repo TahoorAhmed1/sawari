@@ -73,7 +73,6 @@ export default function CityRideFlow() {
         </>
       )}
 
-      {/* Step 6 – Driver Offer */}
       {step === "driver-offer" && (
         <DriverOfferScreen
           onAccept={goBack}

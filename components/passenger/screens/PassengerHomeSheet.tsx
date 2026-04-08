@@ -67,7 +67,7 @@ export const PassengerHomeSheet = ({
           <View className="px-4 pt-2">
             <View className="flex-row justify-between mb-3">
               <TouchableOpacity
-                className="w-[48%] h-48 bg-gray-100 rounded-3xl p-4 overflow-hidden"
+                className="w-[48%] h-52 bg-gray-100 rounded-3xl p-4 overflow-hidden"
                 onPress={() => setShowEnterRoute(true)}
               >
                 <View className="z-10">
@@ -84,7 +84,7 @@ export const PassengerHomeSheet = ({
                   source={{
                     uri: "https://cdn-icons-png.flaticon.com/512/3724/3724720.png",
                   }}
-                  className="w-full h-28 absolute bottom-0 right-0 left-0"
+                  className="w-full h-28 absolute bottom-5 right-0 left-0"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
