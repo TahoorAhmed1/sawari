@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { ArrowLeft, History, Navigation } from "lucide-react-native";
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -31,6 +32,7 @@ export default function CityToCity() {
     scheduledLabel: "Wed, 25 Mar 5:45 PM",
   });
 
+  const router = useRouter();
   const handleBack = () => {
     if (showEnterRoute) {
       setShowEnterRoute(false);
@@ -113,7 +115,10 @@ export default function CityToCity() {
         <View className="absolute top-12 left-4 right-4 flex-row gap-2 ">
           <TouchableOpacity
             className="w-12 h-12 bg-white rounded-full items-center justify-center shadow-lg"
-            onPress={handleBack}
+            onPress={() => {
+              handleBack();
+              router.back();
+            }}
             activeOpacity={0.85}
           >
             <ArrowLeft size={22} color="#333" />

@@ -23,7 +23,7 @@ export default function CourierScreen() {
 
       <BottomSheet snapPoints={snapPoints} index={0}>
         <View className="flex-1 px-5 pt-2">
-          <Text className="text-2xl font-black text-slate-900 mb-6">
+          <Text className="text-2xl font-bold text-slate-900 mb-6">
             Courier delivery
           </Text>
 
@@ -72,8 +72,8 @@ export default function CourierScreen() {
           </TouchableOpacity>
 
           {/* Action Button */}
-          <TouchableOpacity className="bg-[#C2FF12] h-16 rounded-2xl items-center justify-center shadow-sm">
-            <Text className="font-black text-xl">Find a courier</Text>
+          <TouchableOpacity className="bg-primary h-16 rounded-2xl items-center justify-center shadow-sm">
+            <Text className="font-bold text-xl">Find a courier</Text>
           </TouchableOpacity>
         </View>
       </BottomSheet>

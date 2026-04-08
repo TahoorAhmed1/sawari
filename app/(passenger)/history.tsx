@@ -33,7 +33,7 @@ export default function HistoryScreen() {
         </TouchableOpacity>
       </View>
       <View className="px-5">
-        <Text className="text-3xl font-black mb-6">Order history</Text>
+        <Text className="text-3xl font-bold mb-6">Order history</Text>
       </View>
 
       <View className="flex-row px-5 mb-6">

@@ -1,18 +1,18 @@
 import { Ionicons } from "@expo/vector-icons";
 import {
-  BottomSheetBackdrop,
-  BottomSheetBackdropProps,
-  BottomSheetModal,
-  BottomSheetScrollView,
+    BottomSheetBackdrop,
+    BottomSheetBackdropProps,
+    BottomSheetModal,
+    BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
 import { MapPin } from "lucide-react-native";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
-  Keyboard,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Keyboard,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 
 import { Divider } from "../passenger/ui/Divider";
@@ -58,7 +58,7 @@ export function RouteModel({ onNext, onClose }: RouteModelScreenProps) {
         pressBehavior="close"
       />
     ),
-    [],
+    []
   );
 
   const handleNext = () => {
@@ -91,7 +91,7 @@ export function RouteModel({ onNext, onClose }: RouteModelScreenProps) {
       >
         {/* Header with Close Icon */}
         <View className="flex-row items-center justify-between mb-5">
-          <Text className="text-[18px] font-black text-gray-900">
+          <Text className="text-[18px] font-bold text-black">
             Enter your route
           </Text>
           <TouchableOpacity
@@ -110,7 +110,7 @@ export function RouteModel({ onNext, onClose }: RouteModelScreenProps) {
             <Text className="text-[11px] text-gray-400 font-semibold">
               From
             </Text>
-            <Text className="text-[15px] font-bold text-gray-900 mt-0.5">
+            <Text className="text-[15px] font-bold text-black mt-0.5">
               Plot 21
             </Text>
           </View>
@@ -151,7 +151,7 @@ export function RouteModel({ onNext, onClose }: RouteModelScreenProps) {
                 <Ionicons name="time-outline" size={17} color="#555" />
               </View>
               <View className="flex-1">
-                <Text className="text-[15px] font-bold text-gray-900">
+                <Text className="text-[15px] font-bold text-black">
                   {item.title}
                 </Text>
                 <Text className="text-[13px] text-gray-500 mt-0.5 leading-5">

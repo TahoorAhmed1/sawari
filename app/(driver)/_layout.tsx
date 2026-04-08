@@ -1,11 +1,23 @@
 import CustomDrawerContent from "@/components/shared/CustomDrawerContent";
 import { Drawer } from "expo-router/drawer";
+import React from "react";
 
 export default function DriverLayout() {
+  const [currentMode, setCurrentMode] = React.useState<"driver" | "passenger">(
+    "driver"
+  );
   return (
     <Drawer
       drawerContent={(props: any) => (
-        <CustomDrawerContent {...props} role="driver" />
+        <CustomDrawerContent
+          {...props}
+          mode={currentMode}
+          onSwitchMode={() =>
+            setCurrentMode((prev) =>
+              prev === "driver" ? "passenger" : "driver"
+            )
+          }
+        />
       )}
       screenOptions={{
         headerShown: false,

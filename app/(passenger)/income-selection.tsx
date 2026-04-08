@@ -19,7 +19,7 @@ export default function IncomeSelectionScreen() {
 
       <ScrollView className="flex-1 px-5 pt-6">
         <View className="bg-gray-50/50 p-6 rounded-[40px] border border-gray-100 mb-6">
-          <Text className="text-[26px] font-black text-slate-900 mb-6 leading-8">
+          <Text className="text-[26px] font-bold text-slate-900 mb-6 leading-8">
             How do you want to get income with us?
           </Text>
 

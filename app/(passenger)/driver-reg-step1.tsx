@@ -21,7 +21,7 @@ export default function DriverRegStep1() {
       </View>
 
       <View className="px-5 pt-6 flex-1">
-        <Text className="text-[28px] font-black text-slate-900 mb-8">
+        <Text className="text-[28px] font-bold text-slate-900 mb-8">
           Personal information
         </Text>
 
@@ -48,13 +48,13 @@ export default function DriverRegStep1() {
 
       {/* Footer Navigation */}
       <View className="px-5 py-6 flex-row items-center justify-between">
-        <Text className="text-xl font-black text-slate-900">1 of 4</Text>
+        <Text className="text-xl font-bold text-slate-900">1 of 4</Text>
         <View className="flex-row space-x-3">
           <TouchableOpacity className="w-14 h-14 bg-gray-50 rounded-2xl items-center justify-center opacity-30">
             <Ionicons name="chevron-back" size={24} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity className="bg-[#C2FF12] px-10 h-14 rounded-2xl flex-row items-center justify-center">
-            <Text className="text-xl font-black mr-2">Next</Text>
+          <TouchableOpacity className="bg-primary px-10 h-14 rounded-2xl flex-row items-center justify-center">
+            <Text className="text-xl font-bold mr-2">Next</Text>
             <Ionicons name="chevron-forward" size={24} color="black" />
           </TouchableOpacity>
         </View>
@@ -64,7 +64,7 @@ export default function DriverRegStep1() {
       <Modal visible={showExitModal} transparent animationType="fade">
         <View className="flex-1 bg-black/50 items-center justify-center px-6">
           <View className="bg-white w-full rounded-[40px] p-8 items-center">
-            <Text className="text-2xl font-black text-center mb-4">
+            <Text className="text-2xl font-bold text-center mb-4">
               Do you want to close registration?
             </Text>
             <Text className="text-gray-500 text-center mb-8 font-medium">
@@ -72,15 +72,15 @@ export default function DriverRegStep1() {
             </Text>
             <TouchableOpacity
               onPress={() => router.replace("/(passenger)")}
-              className="bg-[#C2FF12] w-full h-16 rounded-2xl items-center justify-center mb-3"
+              className="bg-primary w-full h-16 rounded-2xl items-center justify-center mb-3"
             >
-              <Text className="text-xl font-black">Yes</Text>
+              <Text className="text-xl font-bold">Yes</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => setShowExitModal(false)}
               className="bg-gray-100 w-full h-16 rounded-2xl items-center justify-center"
             >
-              <Text className="text-xl font-black">No</Text>
+              <Text className="text-xl font-bold">No</Text>
             </TouchableOpacity>
           </View>
         </View>

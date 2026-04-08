@@ -15,7 +15,7 @@ export default function FreightRequestScreen() {
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={26} color="black" />
         </TouchableOpacity>
-        <Text className="flex-1 text-center text-xl font-black mr-6">
+        <Text className="flex-1 text-center text-xl font-bold mr-6">
           Freight
         </Text>
       </View>
@@ -107,8 +107,8 @@ export default function FreightRequestScreen() {
           />
 
           {/* Final Request Button */}
-          <TouchableOpacity className="bg-[#C2FF12] h-16 rounded-2xl items-center justify-center mt-8 shadow-sm">
-            <Text className="font-black text-xl">Create request</Text>
+          <TouchableOpacity className="bg-primary h-16 rounded-2xl items-center justify-center mt-8 shadow-sm">
+            <Text className="font-bold text-xl">Create request</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

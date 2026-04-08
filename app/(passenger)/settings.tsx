@@ -16,7 +16,7 @@ export default function SettingsScreen() {
       </View>
 
       <ScrollView className="px-5">
-        <Text className="text-3xl font-black mb-8 text-slate-900">
+        <Text className="text-3xl font-bold mb-8 text-slate-900">
           App settings
         </Text>
 

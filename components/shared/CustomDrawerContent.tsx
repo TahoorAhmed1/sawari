@@ -2,45 +2,57 @@ import { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { useRouter } from "expo-router";
 import {
   Bell,
+  Briefcase,
   Car,
   ChevronRight,
   Clock,
+  CreditCard,
+  Edit3,
   Globe,
-  Printer,
+  Info,
+  MessageCircle,
+  Package,
   Settings,
   ShieldCheck,
   Truck,
   User,
+  Wallet,
 } from "lucide-react-native";
 import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
-export default function CustomDrawerContent(
-  _props: DrawerContentComponentProps
-) {
+type Mode = "driver" | "passenger";
+
+interface CustomDrawerContentProps extends DrawerContentComponentProps {
+  mode: Mode;
+  onSwitchMode: () => void;
+}
+
+export default function CustomDrawerContent({
+  mode,
+  onSwitchMode,
+}: CustomDrawerContentProps) {
   const router = useRouter();
+  const isPassenger = mode === "passenger";
 
   return (
     <>
-      {/* ── Header ── */}
       <TouchableOpacity
         onPress={() => router.push("/(passenger)/income-selection")}
         activeOpacity={0.7}
         className="flex-row items-center px-5 py-5 gap-4"
       >
-        <View className="w-[52px] h-[52px] rounded-full bg-[#3b82f6] items-center justify-center">
+        <View className="w-[52px] h-[52px] rounded-full bg-primary items-center justify-center">
           <User color="#fff" size={30} strokeWidth={2} />
         </View>
-        <Text className="flex-1 text-[21px] font-semibold text-gray-900 tracking-tight">
+        <Text className="flex-1 text-[21px] font-semibold text-black tracking-tight">
           Tahoor
         </Text>
         <ChevronRight color="#111827" size={22} strokeWidth={2.5} />
       </TouchableOpacity>
 
-      {/* ── Divider ── */}
       <View className="h-px bg-gray-200" />
 
-      {/* ── Menu list ── */}
       <ScrollView
         showsVerticalScrollIndicator={false}
         className="flex-1"
@@ -52,28 +64,65 @@ export default function CustomDrawerContent(
           isActive
           onPress={() => router.push("/(passenger)")}
         />
-        <DrawerItem
-          icon={<Clock color="#6b7280" size={23} strokeWidth={1.7} />}
-          label="Request history"
-          onPress={() => router.push("/(passenger)/history")}
-        />
 
-        <DrawerItem
-          icon={<Printer color="#6b7280" size={23} strokeWidth={1.7} />}
-          label="Couriers"
-          onPress={() => router.push("/(passenger)")}
-        />
+        {isPassenger ? (
+          <>
+            <DrawerItem
+              icon={<Clock color="#6b7280" size={23} strokeWidth={1.7} />}
+              label="Request history"
+              onPress={() => router.push("/(passenger)/history")}
+            />
+            <DrawerItem
+              icon={null}
+              label="Groceries in 30 min"
+              badge="NEW"
+              onPress={() => router.push("/(passenger)")}
+            />
+            <DrawerItem
+              icon={<Package color="#6b7280" size={23} strokeWidth={1.7} />}
+              label="Couriers"
+              onPress={() => router.push("/(passenger)")}
+            />
+            <DrawerItem
+              icon={<Briefcase color="#6b7280" size={23} strokeWidth={1.7} />}
+              label="Business delivery"
+              onPress={() => router.push("/(passenger)")}
+            />
+            <DrawerItem
+              icon={<Globe color="#6b7280" size={23} strokeWidth={1.7} />}
+              label="City to City"
+              onPress={() => router.push("/(passenger)/citytocity")}
+            />
+            <DrawerItem
+              icon={<Truck color="#6b7280" size={23} strokeWidth={1.7} />}
+              label="Freight"
+              onPress={() => router.push("/(passenger)")}
+            />
+          </>
+        ) : (
+          <>
+            <DrawerItem
+              icon={<Wallet color="#6b7280" size={23} strokeWidth={1.7} />}
+              label="Wallet"
+            />
+            <DrawerItem
+              icon={<Globe color="#6b7280" size={23} strokeWidth={1.7} />}
+              label="City to City"
+              onPress={() => router.push("/(passenger)/citytocity")}
+            />
+            <DrawerItem
+              icon={<CreditCard color="#6b7280" size={23} strokeWidth={1.7} />}
+              label="Financing"
+              onPress={() => router.push("/(passenger)")}
+            />
+            <DrawerItem
+              icon={<Truck color="#6b7280" size={23} strokeWidth={1.7} />}
+              label="Freight"
+              onPress={() => router.push("/(passenger)")}
+            />
+          </>
+        )}
 
-        <DrawerItem
-          icon={<Globe color="#6b7280" size={23} strokeWidth={1.7} />}
-          label="City to City"
-          onPress={() => router.push("/(passenger)/citytocity")}
-        />
-        <DrawerItem
-          icon={<Truck color="#6b7280" size={23} strokeWidth={1.7} />}
-          label="Freight"
-          onPress={() => router.push("/(passenger)")}
-        />
         <DrawerItem
           icon={<Bell color="#6b7280" size={23} strokeWidth={1.7} />}
           label="Notifications"
@@ -89,24 +138,40 @@ export default function CustomDrawerContent(
           label="Settings"
           onPress={() => router.push("/(passenger)")}
         />
+
+        {!isPassenger && (
+          <>
+            <DrawerItem
+              icon={<Info color="#6b7280" size={23} strokeWidth={1.7} />}
+              label="Help"
+            />
+            <DrawerItem
+              icon={
+                <MessageCircle color="#6b7280" size={23} strokeWidth={1.7} />
+              }
+              label="Support"
+              onPress={() => router.push("/(passenger)/support")}
+            />
+            <DrawerItem
+              icon={<Edit3 color="#6b7280" size={23} strokeWidth={1.7} />}
+              label="Online registration"
+            />
+          </>
+        )}
       </ScrollView>
 
-      {/* ── Footer ── */}
       <View className="px-4 pt-3 pb-5">
-        {/* Driver mode */}
         <TouchableOpacity
-          onPress={() => router.push("/(passenger)/income-selection")}
+          onPress={onSwitchMode}
           activeOpacity={0.85}
-          className="bg-[#C2FF12] h-[60px] rounded-[18px] items-center justify-center mb-5"
+          className="bg-primary h-[60px] rounded-[18px] items-center justify-center mb-5"
         >
-          <Text className="text-[18px] font-bold text-gray-900 tracking-wide">
-            Driver mode
+          <Text className="text-[18px] font-bold text-white tracking-wide">
+            {isPassenger ? "Driver mode" : "Passenger mode"}
           </Text>
         </TouchableOpacity>
 
-        {/* Social icons */}
         <View className="flex-row justify-center gap-4">
-          {/* Facebook */}
           <TouchableOpacity
             activeOpacity={0.8}
             className="w-11 h-11 rounded-full bg-[#1877F2] items-center justify-center"
@@ -119,17 +184,13 @@ export default function CustomDrawerContent(
             </Text>
           </TouchableOpacity>
 
-          {/* Instagram */}
           <TouchableOpacity
             activeOpacity={0.8}
             className="w-11 h-11 rounded-full items-center justify-center"
             style={{ backgroundColor: "#d62976" }}
           >
-            {/* Camera outline */}
             <View className="w-5 h-5 rounded-[5px] border-2 border-white items-center justify-center">
-              {/* Lens circle */}
               <View className="w-2 h-2 rounded-full border border-white" />
-              {/* Flash dot */}
               <View
                 className="absolute bg-white rounded-full"
                 style={{ width: 3, height: 3, top: 1, right: 1 }}
@@ -142,7 +203,7 @@ export default function CustomDrawerContent(
   );
 }
 
-/* ─── DrawerItem ──────────────────────────────────────────────── */
+/* ─── DrawerItem Component ──────────────────────────────────────────────── */
 interface DrawerItemProps {
   icon?: React.ReactNode;
   label: string;
@@ -154,7 +215,7 @@ interface DrawerItemProps {
 const DrawerItem = ({
   icon,
   label,
-  isActive,
+  isActive = false,
   badge,
   onPress,
 }: DrawerItemProps) => (
@@ -165,7 +226,6 @@ const DrawerItem = ({
       isActive ? "bg-gray-100" : "bg-white"
     }`}
   >
-    {/* Icon / badge column — fixed width so all labels align */}
     <View className="w-[38px] items-center justify-center mr-3">
       {badge ? (
         <View className="bg-red-500 px-[6px] py-[3px] rounded">
@@ -178,9 +238,8 @@ const DrawerItem = ({
       )}
     </View>
 
-    {/* Label */}
     <Text
-      className={`flex-1 text-[16px] text-gray-900 ${
+      className={`flex-1 text-[16px] text-black ${
         isActive ? "font-medium" : "font-normal"
       }`}
     >

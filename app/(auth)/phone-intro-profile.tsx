@@ -37,15 +37,15 @@ export default function IntroProfileScreen() {
             <Ionicons name="arrow-back" size={26} color="black" />
           </TouchableOpacity>
 
-          <Text className="text-4xl font-black text-gray-900 mt-12 leading-tight">
-            Welcome to inDrive!
+          <Text className="text-4xl font-bold text-black mt-12 leading-tight">
+            Welcome to Sawari!
           </Text>
           <Text className="text-lg text-gray-500 mt-3">
             Please introduce yourself
           </Text>
 
           <TextInput
-            className="mt-10 h-14 border-2 border-gray-800 rounded-xl px-4 text-2xl text-black"
+            className="mt-10 h-14 border-2 border-primary rounded-xl px-4 text-2xl text-black"
             placeholder="First name"
             placeholderTextColor="#6B7280"
             value={firstName}
@@ -65,12 +65,14 @@ export default function IntroProfileScreen() {
               }
               activeOpacity={0.9}
               disabled={!canContinue}
-              className={`h-14 rounded-2xl items-center justify-center ${canContinue ? "bg-[#C2FF12]" : "bg-gray-100"
-                }`}
+              className={`h-14 rounded-2xl items-center justify-center ${
+                canContinue ? "bg-primary" : "bg-gray-100"
+              }`}
             >
               <Text
-                className={`text-2xl font-semibold ${canContinue ? "text-black" : "text-gray-400"
-                  }`}
+                className={`text-2xl font-semibold ${
+                  canContinue ? "text-white" : "text-gray-400"
+                }`}
               >
                 Next
               </Text>

@@ -25,7 +25,7 @@ export function RouteSummaryCard({ from, to }: RouteSummaryCardProps) {
       <View className="flex-row items-center mb-3">
         <View className="w-5 h-5 rounded-full border-[4px] border-green-600 mr-4 bg-white" />
         <Text
-          className="flex-1 text-[16px] font-bold text-gray-900"
+          className="flex-1 text-[16px] font-bold text-black"
           numberOfLines={1}
         >
           {from}
@@ -35,7 +35,7 @@ export function RouteSummaryCard({ from, to }: RouteSummaryCardProps) {
       <View className="flex-row items-center">
         <View className="w-5 h-5 rounded-full border-[4px] border-[#E34C42] mr-4 bg-white" />
         <Text
-          className="flex-1 text-[16px] font-bold text-gray-900"
+          className="flex-1 text-[16px] font-bold text-black"
           numberOfLines={1}
         >
           {to}

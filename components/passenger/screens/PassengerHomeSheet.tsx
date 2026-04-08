@@ -1,20 +1,19 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
   Image,
   Keyboard,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { ScrollView as GHScrollView } from "react-native-gesture-handler";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { RouteModel } from "../../models/RouteModel";
-
 interface EnterRouteScreenProps {
   onNext: any;
   onClose: () => void;
@@ -31,6 +30,8 @@ export const PassengerHomeSheet = ({
 
   const insets = useSafeAreaInsets();
   const extraTop = Math.max(0, insets.top - 24);
+
+  const horizontalRef = useRef(null);
   return (
     <View className="flex-1 z-20 bg-gray-400/60">
       <MapView
@@ -66,7 +67,7 @@ export const PassengerHomeSheet = ({
           <View className="px-4 pt-2">
             <View className="flex-row justify-between mb-3">
               <TouchableOpacity
-                className="w-[48%] h-48 bg-gray-100 rounded-3xl p-4 overflow-hidden"
+                className="w-[48%] h-52 bg-gray-100 rounded-3xl p-4 overflow-hidden"
                 onPress={() => setShowEnterRoute(true)}
               >
                 <View className="z-10">
@@ -74,7 +75,7 @@ export const PassengerHomeSheet = ({
                     Groceries{"\n"}in 30 min
                   </Text>
                   <View className="bg-red-500 self-start px-2 py-0.5 rounded-md mt-2">
-                    <Text className="text-white text-[10px] font-black">
+                    <Text className="text-white text-[10px] font-bold">
                       NEW
                     </Text>
                   </View>
@@ -83,7 +84,7 @@ export const PassengerHomeSheet = ({
                   source={{
                     uri: "https://cdn-icons-png.flaticon.com/512/3724/3724720.png",
                   }}
-                  className="w-full h-28 absolute bottom-0 right-0 left-0"
+                  className="w-full h-28 absolute bottom-5 right-0 left-0"
                   resizeMode="contain"
                 />
               </TouchableOpacity>
@@ -123,46 +124,38 @@ export const PassengerHomeSheet = ({
               onPress={() => setShowEnterRoute(true)}
             >
               <Ionicons name="search" size={20} color="#1F2937" />
-              <Text className="text-gray-900 text-lg font-bold ml-3 flex-1">
+              <Text className="text-black text-lg font-bold ml-3 flex-1">
                 Where to & for how much?
               </Text>
               <Ionicons name="chevron-forward" size={16} color="#9CA3AF" />
             </TouchableOpacity>
 
             <SectionHeader title="Groceries in 30 minutes" />
-            <ScrollView
+            <GHScrollView
+              ref={horizontalRef}
               horizontal
+              nestedScrollEnabled
+              directionalLockEnabled
               showsHorizontalScrollIndicator={false}
               className="mb-6"
             >
-              <PromoCard label="Flash Deal" color="bg-lime-400" icon="tag" />
-              <PromoCard
-                label="Fruits & Veg"
-                color="bg-orange-50"
-                icon="food-apple"
-              />
-              <PromoCard
-                label="Chicken & Meat"
-                color="bg-red-50"
-                icon="food-drumstick"
-              />
-            </ScrollView>
+              <PromoCard label="Flash Deal" color="bg-primary " />
+              <PromoCard label="Fruits & Veg" color="bg-red-300" />
+              <PromoCard label="Chicken & Meat" color="bg-red-300" />
+            </GHScrollView>
 
             {/* Horizontal Scrolling Section: Send fast and safe */}
             <SectionHeader title="Send fast and safe" />
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <CategoryIcon
-                label="Clothes"
-                icon="tshirt-crew"
-                color="bg-lime-400"
-              />
-              <CategoryIcon label="Food" icon="hamburger" color="bg-lime-400" />
-              <CategoryIcon
-                label="Documents"
-                icon="file-document"
-                color="bg-lime-400"
-              />
-            </ScrollView>
+            <GHScrollView
+              horizontal
+              nestedScrollEnabled
+              directionalLockEnabled
+              showsHorizontalScrollIndicator={false}
+            >
+              <CategoryIcon label="Clothes" icon="tshirt-crew" />
+              <CategoryIcon label="Food" icon="hamburger" />
+              <CategoryIcon label="Documents" icon="file-document" />
+            </GHScrollView>
           </View>
         </BottomSheetScrollView>
       </BottomSheet>
@@ -201,7 +194,7 @@ const ServiceSmallCard = ({
 
 const SectionHeader = ({ title }: { title: string }) => (
   <View className="flex-row items-center justify-between mb-3 mt-2">
-    <Text className="text-gray-900 text-xl font-black">{title}</Text>
+    <Text className="text-black text-xl font-bold">{title}</Text>
     <TouchableOpacity className="bg-gray-100 rounded-full p-1">
       <Ionicons name="chevron-forward" size={14} color="black" />
     </TouchableOpacity>
@@ -213,12 +206,7 @@ const PromoCard = ({ label, color }: any) => (
     <View
       className={`w-32 h-32 rounded-3xl ${color} items-center justify-center overflow-hidden`}
     >
-      {/* Placeholder for complex graphics in screenshot */}
-      <MaterialCommunityIcons
-        name="shopping"
-        size={50}
-        color="rgba(0,0,0,0.1)"
-      />
+      <MaterialCommunityIcons name="shopping" size={50} color="white" />
     </View>
     <Text className="text-gray-800 text-xs font-bold mt-2">{label}</Text>
   </View>
@@ -226,8 +214,8 @@ const PromoCard = ({ label, color }: any) => (
 
 const CategoryIcon = ({ label, icon }: any) => (
   <View className="mr-3 items-center">
-    <View className="w-32 h-32 bg-lime-400 rounded-3xl items-center justify-center">
-      <MaterialCommunityIcons name={icon} size={60} color="black" />
+    <View className="w-32 h-32 bg-primary text-white rounded-3xl items-center justify-center">
+      <MaterialCommunityIcons name={icon} size={60} color="white" />
     </View>
     <Text className="text-gray-800 text-sm font-bold mt-2">{label}</Text>
   </View>

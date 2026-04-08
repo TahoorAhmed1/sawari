@@ -19,7 +19,7 @@ export default function ChooseVehicleScreen() {
       </View>
 
       <View className="px-5 pt-8">
-        <Text className="text-2xl font-black text-slate-900 mb-10">
+        <Text className="text-2xl font-bold text-slate-900 mb-10">
           Choose your vehicle
         </Text>
 

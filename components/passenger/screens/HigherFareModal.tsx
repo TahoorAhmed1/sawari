@@ -1,7 +1,4 @@
-import {
-  BottomSheetModal,
-  BottomSheetView
-} from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import React, { useEffect, useRef } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
@@ -45,7 +42,7 @@ export function HigherFareModal({
           <CloseButton onPress={onCancel} />
         </View>
 
-        <Text className="text-[24px] font-black text-gray-900 leading-8 mb-3">
+        <Text className="text-[24px] font-bold text-black leading-8 mb-3">
           Still need a ride? Search again with the higher fare
         </Text>
         <Text className="text-[15px] text-gray-500 mb-6">
@@ -57,7 +54,7 @@ export function HigherFareModal({
           activeOpacity={0.85}
           className="bg-[#C8F000] rounded-2xl py-4 items-center mb-2"
         >
-          <Text className="text-[17px] font-black text-gray-900">
+          <Text className="text-[17px] font-bold text-black">
             Search at PKR260
           </Text>
         </TouchableOpacity>

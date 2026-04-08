@@ -57,7 +57,7 @@ export default function OTPScreen() {
         </View>
 
         <View className="px-5 flex-1">
-          <Text className="text-4xl font-black text-black mt-6">
+          <Text className="text-4xl font-bold text-black  mt-6">
             Enter the code
           </Text>
           <Text className="text-xl text-gray-700 mt-3 leading-7">
@@ -65,7 +65,6 @@ export default function OTPScreen() {
           </Text>
 
           <View className="mt-1" onTouchStart={focusOtp}>
-            {/* Invisible but focusable input: enables typing even when you tap the dots */}
             <TextInput
               ref={inputRef}
               keyboardType="number-pad"
@@ -75,7 +74,7 @@ export default function OTPScreen() {
               onChangeText={handleVerify}
               style={{
                 opacity: 0,
-                width: "100%"
+                width: "100%",
               }}
             />
 
@@ -104,7 +103,9 @@ export default function OTPScreen() {
               Linking.openURL("whatsapp://");
             }}
           >
-            <Text className="text-2xl font-semibold text-black">Open WhatsApp</Text>
+            <Text className="text-2xl font-semibold text-white">
+              Open WhatsApp
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -114,15 +115,11 @@ export default function OTPScreen() {
               setCode("");
             }}
             activeOpacity={0.9}
-            className={`h-14 rounded-2xl items-center justify-center mt-3 ${
-              canResend ? "bg-[#C2FF12]" : "bg-gray-100"
+            className={`h-14 rounded-2xl items-center text-white justify-center mt-3 ${
+              canResend ? "bg-primary" : "bg-primary"
             }`}
           >
-            <Text
-              className={`text-2xl font-medium ${
-                canResend ? "text-black" : "text-gray-400"
-              }`}
-            >
+            <Text className={`text-2xl font-medium `}>
               {canResend ? "Resend code" : `Resend code ${mm}:${ss}`}
             </Text>
           </TouchableOpacity>
