@@ -22,11 +22,11 @@ export default function PasskeyScreen() {
         </TouchableOpacity>
 
         <View className="items-center mt-5 mb-8">
-          <View className="w-40 h-40 rounded-full bg-lime-100 items-center justify-center">
+          <View className="w-40 h-40 rounded-full bg-primary items-center justify-center">
             <MaterialCommunityIcons
               name="fingerprint"
               size={88}
-              color="#111827"
+              color="#ffff"
             />
           </View>
         </View>
@@ -67,7 +67,7 @@ export default function PasskeyScreen() {
           <TouchableOpacity
             onPress={goNext}
             activeOpacity={0.9}
-            className="h-14 rounded-2xl items-center justify-center bg-primary"
+            className="h-[55px] rounded-2xl items-center justify-center bg-primary"
           >
             <Text className="text-2xl font-semibold text-white">
               Create passkey
@@ -77,7 +77,7 @@ export default function PasskeyScreen() {
           <TouchableOpacity
             onPress={goNext}
             activeOpacity={0.9}
-            className="h-14 rounded-2xl items-center justify-center bg-gray-100 mt-3"
+            className="h-[55px] rounded-2xl items-center justify-center bg-gray-100 mt-3"
           >
             <Text className="text-2xl font-medium text-gray-700">Skip</Text>
           </TouchableOpacity>

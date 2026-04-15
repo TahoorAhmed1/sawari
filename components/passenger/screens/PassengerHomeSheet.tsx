@@ -1,6 +1,7 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
+import { router } from "expo-router";
 import React, { useMemo, useRef, useState } from "react";
 import {
   Image,
@@ -98,7 +99,7 @@ export const PassengerHomeSheet = ({
                 <ServiceSmallCard
                   title="City to City"
                   img="https://cdn-icons-png.flaticon.com/512/2099/2099140.png"
-                  onPress={() => setShowEnterRoute(true)}
+                  onPress={() => router.push("/(passenger)/citytocity")}
                 />
               </View>
             </View>

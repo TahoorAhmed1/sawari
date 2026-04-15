@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function PassengerLayout() {
   const [currentMode, setCurrentMode] = React.useState<"driver" | "passenger">(
-    "passenger"
+    "passenger",
   );
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -16,7 +16,7 @@ export default function PassengerLayout() {
             mode={currentMode}
             onSwitchMode={() =>
               setCurrentMode((prev) =>
-                prev === "driver" ? "passenger" : "driver"
+                prev === "driver" ? "passenger" : "driver",
               )
             }
           />
@@ -26,8 +26,8 @@ export default function PassengerLayout() {
           drawerStyle: {
             width: "80%",
             backgroundColor: "#ffffff",
-            borderTopRightRadius: 10,
-            borderBottomRightRadius: 10,
+            borderTopRightRadius: 0,
+            borderBottomRightRadius: 0,
           },
           overlayColor: "rgba(0,0,0,0.6)",
           headerShown: false,

@@ -18,7 +18,7 @@ export default function IntroProfileScreen() {
 
   const nextRoute = useMemo(
     () => (role === "driver" ? "/(driver)" : "/(passenger)"),
-    [role]
+    [role],
   );
 
   const canContinue = firstName.trim().length > 0;
@@ -37,15 +37,15 @@ export default function IntroProfileScreen() {
             <Ionicons name="arrow-back" size={26} color="black" />
           </TouchableOpacity>
 
-          <Text className="text-4xl font-bold text-black mt-12 leading-tight">
+          <Text className="text-3xl font-bold text-black mt-5 leading-tight">
             Welcome to Sawari!
           </Text>
-          <Text className="text-lg text-gray-500 mt-3">
+          <Text className="text-xl text-black mt-2">
             Please introduce yourself
           </Text>
 
           <TextInput
-            className="mt-10 h-14 border-2 border-primary rounded-xl px-4 text-2xl text-black"
+            className="mt-5 h-[55px] border-2 border-slate-100 rounded-2xl px-4 text-2xl text-black"
             placeholder="First name"
             placeholderTextColor="#6B7280"
             value={firstName}

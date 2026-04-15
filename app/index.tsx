@@ -1,4 +1,3 @@
-import * as Google from "expo-auth-session/providers/google";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -21,19 +20,13 @@ const slides = [
     id: 1,
     title: "Your app for fair deals",
     subtitle: "Choose rides that are right for you",
-    image: require("../assets/images/riksha.png"),
+    image: require("../assets/images/register-1.png"),
   },
   {
     id: 2,
     title: "Set your own price",
     subtitle: "Negotiate fares directly with drivers",
-    image: require("../assets/images/car.png"),
-  },
-  {
-    id: 3,
-    title: "Safe & reliable rides",
-    subtitle: "Travel confidently every day",
-    image: require("../assets/images/bike.png"),
+    image: require("../assets/images/register-2.png"),
   },
 ];
 
@@ -41,20 +34,20 @@ export default function Index() {
   const router = useRouter();
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const [request] = Google.useAuthRequest({
-    androidClientId:
-      "436626233053-m32tv0kgtk8p0b8todjk2326rc5p7dmg.apps.googleusercontent.com",
-    webClientId:
-      "436626233053-4fmep61k7jfnpjt0g17nv69ftcpv3hr0.apps.googleusercontent.com",
-    redirectUri: "sawari://redirect",
-  });
+  // const [request] = Google.useAuthRequest({
+  //   androidClientId:
+  //     "436626233053-m32tv0kgtk8p0b8todjk2326rc5p7dmg.apps.googleusercontent.com",
+  //   webClientId:
+  //     "436626233053-4fmep61k7jfnpjt0g17nv69ftcpv3hr0.apps.googleusercontent.com",
+  //   redirectUri: "sawari://redirect",
+  // });
 
   const renderItem = ({ item }: any) => (
     <View className="items-center justify-center px-6">
       <Image
         source={item.image}
         resizeMode="contain"
-        style={{ width: 240, height: 200 }}
+        style={{ width: 260, height: 200 }}
       />
 
       <Text className="text-[26px] font-bold text-center text-slate-900 mt-4">
@@ -72,8 +65,12 @@ export default function Index() {
       <StatusBar barStyle="dark-content" />
 
       {/* Logo */}
-      <View className="items-center mt-10">
-        <Image source={Logo} className="w-20 h-20" resizeMode="contain" />
+      <View className="items-center mt-2">
+        <Image
+          source={Logo}
+          className="w-[65px] h-[65px]"
+          resizeMode="contain"
+        />
       </View>
 
       {/* Main Illustration Area */}
@@ -107,7 +104,7 @@ export default function Index() {
         {/* Continue with Phone - Your Theme Color */}
         <TouchableOpacity
           onPress={() => router.push("/(auth)/phone-login")}
-          className="bg-primary h-[56px] rounded-2xl items-center justify-center shadow-sm active:opacity-90"
+          className="bg-primary h-[55px] rounded-2xl items-center justify-center shadow-sm active:opacity-90"
         >
           <Text className="text-white font-semibold text-[17px]">
             Continue with phone
@@ -116,9 +113,9 @@ export default function Index() {
 
         {/* Continue with Google */}
         <TouchableOpacity
-          disabled={!request}
+          // disabled={!request}
           onPress={() => router.push("/(passenger)")}
-          className="mt-3 bg-white border border-gray-200 h-[56px] rounded-2xl flex-row items-center justify-center shadow-sm active:bg-gray-50"
+          className="mt-3 bg-white border border-gray-200 h-[55px] rounded-2xl flex-row items-center justify-center shadow-sm active:bg-gray-50"
         >
           <Image
             source={require("../assets/icons/google.png")}

@@ -1,6 +1,7 @@
 import { RouteModel } from "@/components/models/RouteModel";
+import { Ionicons } from "@expo/vector-icons";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { Info, Search } from "lucide-react-native"; // Optional icons
+import { Info } from "lucide-react-native"; // Optional icons
 import React, { useMemo, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -54,44 +55,34 @@ const MainSheet = ({ setStep, showEnterRoute, setShowEnterRoute }: any) => {
               />
             ))}
           </ScrollView>
-
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#F8FAFC",
-              height: 55,
-              borderRadius: 20,
-              flexDirection: "row",
-              alignItems: "center",
-              paddingHorizontal: 20,
-              marginHorizontal: 16,
-              marginBottom: 10,
-              borderWidth: 1,
-              borderColor: "#F1F5F9",
-            }}
-            onPress={() => setShowEnterRoute(true)}
-          >
-            <Search size={24} color="black" />
-            <Text style={{ marginLeft: 10, fontSize: 18, fontWeight: "bold" }}>
-              Where to & for how much?
-            </Text>
-          </TouchableOpacity>
-
-          <View className=" flex-row items-center justify-between px-4">
-            <View>
-              <ActionCard
-                title="Share your ride"
-                onPress={() => setShowEnterRoute(true)}
-              />
-              <ActionCard
-                title="Request a car"
-                onPress={() => setShowEnterRoute(true)}
-              />
-            </View>
-            <View className="flex-1 h-full">
-              <ActionCard
-                title="Send a parcel"
-                onPress={() => setShowEnterRoute(true)}
-              />
+          <View className="px-4">
+            <TouchableOpacity
+              className="bg-gray-100 flex-row items-center p-4 rounded-2xl mb-4"
+              onPress={() => setShowEnterRoute(true)}
+            >
+              <Ionicons name="search" size={20} color="#1F2937" />
+              <Text className="text-black text-lg font-bold ml-3 flex-1">
+                Where to & for how much?
+              </Text>
+              <Ionicons name="chevron-forward" size={16} color="#9CA3AF" />
+            </TouchableOpacity>
+            <View className=" flex-row items-center justify-between ">
+              <View>
+                <ActionCard
+                  title="Share your ride"
+                  onPress={() => setShowEnterRoute(true)}
+                />
+                <ActionCard
+                  title="Request a car"
+                  onPress={() => setShowEnterRoute(true)}
+                />
+              </View>
+              <View className="flex-1 h-full">
+                <ActionCard
+                  title="Send a parcel"
+                  onPress={() => setShowEnterRoute(true)}
+                />
+              </View>
             </View>
           </View>
         </BottomSheetScrollView>

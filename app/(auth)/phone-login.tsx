@@ -42,7 +42,7 @@ export default function PhoneLoginScreen() {
         </TouchableOpacity>
 
         <View className="px-5 flex-1">
-          <Text className="text-4xl font-bold text-black  mt-4">
+          <Text className="text-3xl font-bold text-black  mt-4">
             Join us via phone number
           </Text>
           <Text className="text-black text-xl mt-2 mb-8">
@@ -50,8 +50,8 @@ export default function PhoneLoginScreen() {
           </Text>
 
           <View
-            className={`flex-row items-center h-[62px] px-3 rounded-2xl border-2 ${
-              error ? "border-red-500" : "border-red-400"
+            className={`flex-row items-center h-[55px] px-3 rounded-2xl border-2 ${
+              error ? "border-slate-100" : "border-slate-100"
             }`}
           >
             <TouchableOpacity className="flex-row items-center border-r border-gray-300 pr-3 mr-3">
@@ -81,15 +81,11 @@ export default function PhoneLoginScreen() {
           <TouchableOpacity
             onPress={handleNext}
             activeOpacity={0.8}
-            className={`h-16 rounded-2xl items-center justify-center ${
-              phone.length >= 10 ? "bg-primary" : "bg-gray-100"
+            className={`h-[55px] rounded-2xl items-center justify-center bg-primary ${
+              phone.length >= 10 ? "" : "cursor-not-allowed"
             }`}
           >
-            <Text
-              className={`font-semibold text-2xl ${
-                phone.length >= 10 ? "text-white" : "text-gray-400"
-              }`}
-            >
+            <Text className={`font-semibold text-2xl ${"text-white"}`}>
               Next
             </Text>
           </TouchableOpacity>

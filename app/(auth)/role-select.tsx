@@ -1,11 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RoleSelectScreen() {
   const router = useRouter();
+  const Logo = require("../../assets/images/register-2.png");
 
   const onPick = (role: "passenger" | "driver") => {
     router.push({
@@ -24,23 +25,24 @@ export default function RoleSelectScreen() {
           <Ionicons name="arrow-back" size={26} color="black" />
         </TouchableOpacity>
 
-        <Text className="text-4xl font-bold text-black mt-14 text-center leading-tight">
+        <Text className="text-4xl font-bold text-black mt-5 text-center leading-tight">
           Are you a passenger or a driver?
         </Text>
         <Text className="text-lg text-gray-500 text-center mt-3">
           You can change the mode later
         </Text>
-
         <View className="flex-1 items-center justify-center">
-          <View className="w-64 h-40 rounded-3xl bg-lime-100 items-center justify-center">
-            <Text className="text-7xl">🚗</Text>
-          </View>
+          <Image
+            source={Logo}
+            resizeMode="contain"
+            style={{ width: 240, height: 200 }}
+          />
         </View>
 
         <TouchableOpacity
           onPress={() => onPick("passenger")}
           activeOpacity={0.9}
-          className="h-14 rounded-2xl items-center justify-center bg-primary"
+          className="h-[55px] rounded-2xl items-center justify-center bg-primary"
         >
           <Text className="text-2xl font-semibold text-white">Passenger</Text>
         </TouchableOpacity>
@@ -48,7 +50,7 @@ export default function RoleSelectScreen() {
         <TouchableOpacity
           onPress={() => onPick("driver")}
           activeOpacity={0.9}
-          className="h-14 rounded-2xl items-center justify-center bg-gray-100 mt-3"
+          className="h-[55px] rounded-2xl items-center justify-center bg-gray-100 mt-3"
         >
           <Text className="text-2xl font-medium text-gray-800">Driver</Text>
         </TouchableOpacity>

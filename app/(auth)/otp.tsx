@@ -1,4 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -57,40 +57,54 @@ export default function OTPScreen() {
         </View>
 
         <View className="px-5 flex-1">
-          <Text className="text-4xl font-bold text-black  mt-6">
+          <Text className="text-3xl font-bold text-black  mt-6">
             Enter the code
           </Text>
-          <Text className="text-xl text-gray-700 mt-3 leading-7">
+          <Text className="text-xl text-black mt-2 ">
             We sent your code via WhatsApp to {"\n"}+92 {phone || "0000000000"}
           </Text>
 
-          <View className="mt-1" onTouchStart={focusOtp}>
+          <View className="mt-5">
             <TextInput
               ref={inputRef}
               keyboardType="number-pad"
               maxLength={4}
-              autoFocus
               value={code}
               onChangeText={handleVerify}
+              autoFocus
               style={{
+                position: "absolute",
                 opacity: 0,
-                width: "100%",
               }}
             />
 
+            {/* OTP Boxes */}
             <TouchableOpacity
-              activeOpacity={0.9}
+              activeOpacity={1}
               onPress={focusOtp}
-              className="flex-row items-center"
+              className="flex-row gap-4"
             >
-              {[0, 1, 2, 3].map((idx) => (
-                <View
-                  key={idx}
-                  className={`h-4 w-4 rounded-full mr-6 ${
-                    idx < code.length ? "bg-gray-500" : "bg-gray-200"
-                  }`}
-                />
-              ))}
+              {[0, 1, 2, 3].map((index) => {
+                const digit = code[index];
+
+                const isActive = index === code.length;
+
+                return (
+                  <View
+                    key={index}
+                    className={`w-16 h-16  rounded-2xl items-center justify-center
+          ${
+            isActive
+              ? "border-2 border-primary bg-red-50"
+              : "border border-gray-100 bg-gray-50"
+          }`}
+                  >
+                    <Text className="text-2xl font-bold text-black">
+                      {digit || ""}
+                    </Text>
+                  </View>
+                );
+              })}
             </TouchableOpacity>
           </View>
         </View>
@@ -98,11 +112,12 @@ export default function OTPScreen() {
         <View className="px-5 pb-6">
           <TouchableOpacity
             activeOpacity={0.9}
-            className="h-14 bg-gray-100 rounded-2xl items-center justify-center"
+            className="h-[55px] bg-green-500 flex-row gap-4 rounded-2xl items-center justify-center"
             onPress={() => {
               Linking.openURL("whatsapp://");
             }}
           >
+            <AntDesign name="whats-app" size={25} color="white" />
             <Text className="text-2xl font-semibold text-white">
               Open WhatsApp
             </Text>
@@ -115,11 +130,11 @@ export default function OTPScreen() {
               setCode("");
             }}
             activeOpacity={0.9}
-            className={`h-14 rounded-2xl items-center text-white justify-center mt-3 ${
+            className={`h-[55px] rounded-2xl items-center  justify-center mt-3 ${
               canResend ? "bg-primary" : "bg-primary"
             }`}
           >
-            <Text className={`text-2xl font-medium `}>
+            <Text className={`text-2xl font-medium text-white `}>
               {canResend ? "Resend code" : `Resend code ${mm}:${ss}`}
             </Text>
           </TouchableOpacity>
