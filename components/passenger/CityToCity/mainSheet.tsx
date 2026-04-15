@@ -143,7 +143,7 @@ const ActionCard = ({ title, onPress }: any) => (
     style={{
       backgroundColor: "#F9FAFB",
       height: 90,
-      borderRadius: 24,
+      borderRadius: 16,
       padding: 12,
       margin: 5,
       justifyContent: "space-between",

@@ -2,7 +2,6 @@ import { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { useRouter } from "expo-router";
 import {
   Bell,
-  Briefcase,
   Car,
   ChevronRight,
   Clock,
@@ -72,22 +71,13 @@ export default function CustomDrawerContent({
               label="Request history"
               onPress={() => router.push("/(passenger)/history")}
             />
-            <DrawerItem
-              icon={null}
-              label="Groceries in 30 min"
-              badge="NEW"
-              onPress={() => router.push("/(passenger)")}
-            />
+
             <DrawerItem
               icon={<Package color="#6b7280" size={23} strokeWidth={1.7} />}
               label="Couriers"
-              onPress={() => router.push("/(passenger)")}
+              onPress={() => router.push("/(passenger)/courier")}
             />
-            <DrawerItem
-              icon={<Briefcase color="#6b7280" size={23} strokeWidth={1.7} />}
-              label="Business delivery"
-              onPress={() => router.push("/(passenger)")}
-            />
+
             <DrawerItem
               icon={<Globe color="#6b7280" size={23} strokeWidth={1.7} />}
               label="City to City"
@@ -96,7 +86,7 @@ export default function CustomDrawerContent({
             <DrawerItem
               icon={<Truck color="#6b7280" size={23} strokeWidth={1.7} />}
               label="Freight"
-              onPress={() => router.push("/(passenger)")}
+              onPress={() => router.push("/(passenger)/freight")}
             />
           </>
         ) : (

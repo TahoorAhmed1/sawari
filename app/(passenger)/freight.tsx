@@ -1,15 +1,37 @@
+import ScheduleSheet from "@/components/passenger/CityToCity/ScheduleSheet";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  ScrollView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import LocationSheet from "../../components/passenger/CityToCity/LocationSheet";
 
 export default function FreightRequestScreen() {
   const router = useRouter();
   const [pickupTime, setPickupTime] = useState("Up to 1 hour");
+  const [locationSheetVisible, setLocationSheetVisible] = useState<
+    null | "pickup" | "destination"
+  >(null);
+  const [pickupCity, setPickupCity] = useState("Karachi");
+  const [pickupStreet, setPickupStreet] = useState("Karachi");
+  const [destinationCity, setDestinationCity] = useState("Karachi");
+  const [destinationStreet, setDestinationStreet] = useState("");
+
+  // Add these states
+  const [scheduleSheetVisible, setScheduleSheetVisible] = useState(false);
+  const [selectedScheduleDate, setSelectedScheduleDate] = useState<
+    string | null
+  >(null);
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <View className="flex-1 bg-white">
+      <StatusBar barStyle="dark-content" />
+
       {/* Header */}
       <View className="flex-row items-center px-4 py-2 border-b border-gray-50">
         <TouchableOpacity onPress={() => router.back()}>
@@ -36,15 +58,30 @@ export default function FreightRequestScreen() {
         <View className="px-5 pb-10">
           {/* Location Inputs */}
           <View className="bg-gray-50 rounded-2xl p-4 mb-4">
-            <LocationRow
-              label="Pickup location"
-              value="Karachi, Plot 21"
-              isGreen
-            />
+            <TouchableOpacity
+              onPress={() => setLocationSheetVisible("pickup")}
+              activeOpacity={0.8}
+            >
+              <LocationRow
+                label="Pickup location"
+                value={`${pickupCity}${pickupStreet ? ", " + pickupStreet : ""}`}
+                isGreen
+              />
+            </TouchableOpacity>
             <View className="h-[1px] bg-gray-200 my-3 ml-8" />
-            <LocationRow label="Destination" value="Destination" isGrey />
+            <TouchableOpacity
+              onPress={() => setLocationSheetVisible("destination")}
+              activeOpacity={0.8}
+            >
+              <LocationRow
+                label="Destination"
+                value={`${destinationCity}${destinationStreet ? ", " + destinationStreet : ""}`}
+                isGrey
+              />
+            </TouchableOpacity>
           </View>
 
+          {/* Pickup Time */}
           {/* Pickup Time */}
           <Text className="font-bold text-slate-800 mb-3 ml-1">
             Pickup time
@@ -53,17 +90,29 @@ export default function FreightRequestScreen() {
             <TimeChip
               label="10-20 min"
               current={pickupTime}
-              set={setPickupTime}
+              set={() => {
+                setPickupTime("10m");
+                setScheduleSheetVisible(false); // ← Open schedule sheet
+                setSelectedScheduleDate(null); // Reset selection
+              }}
             />
             <TimeChip
               label="Up to 1 hour"
               current={pickupTime}
-              set={setPickupTime}
+              set={() => {
+                setPickupTime("1hour");
+                setScheduleSheetVisible(false); // ← Open schedule sheet
+                setSelectedScheduleDate(null); // Reset selection
+              }}
             />
             <TimeChip
               label="Schedule"
               current={pickupTime}
-              set={setPickupTime}
+              set={() => {
+                setPickupTime("Schedule");
+                setScheduleSheetVisible(true); // ← Open schedule sheet
+                setSelectedScheduleDate(null); // Reset selection
+              }}
             />
           </View>
 
@@ -107,12 +156,48 @@ export default function FreightRequestScreen() {
           />
 
           {/* Final Request Button */}
-          <TouchableOpacity className="bg-primary h-16 rounded-2xl items-center justify-center mt-8 shadow-sm">
-            <Text className="font-bold text-xl">Create request</Text>
+          <TouchableOpacity className="bg-primary h-[55px] rounded-2xl items-center justify-center mt-8 shadow-sm">
+            <Text className="font-bold text-xl text-white">Create request</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </SafeAreaView>
+
+      <LocationSheet
+        visible={locationSheetVisible === "pickup"}
+        onClose={() => setLocationSheetVisible(null)}
+        title="Cargo loading point"
+        city={pickupCity}
+        street={pickupStreet}
+        onCityPress={() => {}}
+        onStreetPress={() => {}}
+        onDone={() => setLocationSheetVisible(null)}
+      />
+
+      <LocationSheet
+        visible={locationSheetVisible === "destination"}
+        onClose={() => setLocationSheetVisible(null)}
+        title="Cargo drop-off point"
+        city={destinationCity}
+        street={destinationStreet}
+        onCityPress={() => {}}
+        onStreetPress={() => {}}
+        onDone={() => setLocationSheetVisible(null)}
+      />
+
+      {/* Schedule Bottom Sheet */}
+      <ScheduleSheet
+        visible={scheduleSheetVisible}
+        onClose={() => setScheduleSheetVisible(false)}
+        selectedDate={selectedScheduleDate}
+        onDateSelect={setSelectedScheduleDate}
+        onNext={() => {
+          // You can handle "Next" action here (e.g., save date and close)
+          console.log("Selected delivery date:", selectedScheduleDate);
+          setScheduleSheetVisible(false);
+          // Optionally show success or proceed further
+        }}
+      />
+    </View>
   );
 }
 
@@ -121,11 +206,11 @@ const TopIcon = ({ label, icon, active, isMCI }: any) => {
   const IconLib = isMCI ? MaterialCommunityIcons : Ionicons;
   return (
     <View
-      className={`items-center px-4 py-2 rounded-xl mr-2 ${active ? "bg-blue-50 border border-blue-100" : ""}`}
+      className={`items-center px-4 py-2 rounded-xl mr-2 ${active ? "bg-red-50 border border-red-100" : ""}`}
     >
-      <IconLib name={icon} size={28} color={active ? "#3b82f6" : "#64748b"} />
+      <IconLib name={icon} size={28} color={active ? "#dc2626" : "#64748b"} />
       <Text
-        className={`text-[10px] mt-1 font-bold ${active ? "text-blue-500" : "text-gray-500"}`}
+        className={`text-[10px] mt-1 font-bold ${active ? "text-primary" : "text-gray-500"}`}
       >
         {label}
       </Text>
@@ -134,9 +219,9 @@ const TopIcon = ({ label, icon, active, isMCI }: any) => {
 };
 
 const LocationRow = ({ label, value, isGreen, isGrey }: any) => (
-  <TouchableOpacity className="flex-row items-center">
+  <View className="flex-row items-center">
     <View
-      className={`w-2 h-2 rounded-full mr-4 ${isGreen ? "bg-green-500" : "bg-gray-300"}`}
+      className={`w-2 h-2 rounded-full mr-4 ${isGreen ? "bg-primary" : "bg-gray-300"}`}
     />
     <View className="flex-1">
       <Text className="text-gray-400 text-xs">{label}</Text>
@@ -147,7 +232,7 @@ const LocationRow = ({ label, value, isGreen, isGrey }: any) => (
       </Text>
     </View>
     <Ionicons name="chevron-forward" size={18} color="#cbd5e1" />
-  </TouchableOpacity>
+  </View>
 );
 
 const TimeChip = ({ label, current, set }: any) => {

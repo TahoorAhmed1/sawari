@@ -11,7 +11,7 @@ export function RouteSummaryCard({ from, to }: RouteSummaryCardProps) {
     <View
       style={{
         backgroundColor: "white",
-        borderRadius: 24,
+        borderRadius: 16,
         paddingHorizontal: 18,
         paddingVertical: 14,
         shadowColor: "#000",

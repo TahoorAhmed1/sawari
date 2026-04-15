@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import MainSheet from "../CityToCity/mainSheet";
+import MyOrdersSheet from "../CityToCity/MyOrdersSheet";
 import { ParcelDeliverySheet } from "../CityToCity/ParcelDeliverySheet";
 import { RideChoiceSheet } from "../CityToCity/RideChoiceSheet";
 import { RideScheduleSheet } from "../CityToCity/RideScheduleSheet";
@@ -31,8 +32,25 @@ export default function CityToCity() {
     fare: 500,
     scheduledLabel: "Wed, 25 Mar 5:45 PM",
   });
+  const [showOrdersSheet, setShowOrdersSheet] = useState(false);
 
   const router = useRouter();
+
+  const handleAddOrder = (orderDetails: {
+    type: string;
+    from: string;
+    to: string;
+    scheduledTime?: string;
+  }) => {
+    // Handle the order creation logic here
+    console.log("Order created:", orderDetails);
+    // You can add the order to a state management system or API call here
+  };
+
+  const handleMyOrdersPress = () => {
+    setShowOrdersSheet(true);
+  };
+
   const handleBack = () => {
     if (showEnterRoute) {
       setShowEnterRoute(false);
@@ -89,45 +107,67 @@ export default function CityToCity() {
             <Text style={{ fontWeight: "bold", marginTop: 4 }}>Ride</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={{ flex: 1, alignItems: "center" }}>
+          <TouchableOpacity
+            style={{ flex: 1, alignItems: "center" }}
+            onPress={handleMyOrdersPress}
+          >
             <History size={22} color="#CBD5E1" />
             <Text style={{ color: "#94A3B8", marginTop: 4 }}>My orders</Text>
           </TouchableOpacity>
         </View>
+        <MyOrdersSheet
+          isVisible={showOrdersSheet}
+          onClose={() => setShowOrdersSheet(false)}
+          orders={[
+            {
+              status: "Cancelled",
+              fare: "PKR500",
+              type: "parcel",
+              scheduledLabel: "Wed, 25 Mar 5:45 PM",
+              from: "Pakistan, Plot 21, New Karachi Co-Operative Housing Society",
+              to: "Pakistan, Lahore",
+            },
+          ]}
+        />
       </View>
     );
   }
 
   return (
     <View className="flex-1 bg-white">
-      <View className="flex-1">
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          style={StyleSheet.absoluteFillObject}
-          initialRegion={{
-            latitude: 24.8607,
-            longitude: 67.0104,
-            latitudeDelta: 0.05,
-            longitudeDelta: 0.05,
-          }}
-        />
-
-        <View className="absolute top-12 left-4 right-4 flex-row gap-2 ">
-          <TouchableOpacity
-            className="w-12 h-12 bg-white rounded-full items-center justify-center shadow-lg"
-            onPress={() => {
-              handleBack();
-              router.back();
+      {
+        <View className="flex-1">
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            style={StyleSheet.absoluteFillObject}
+            initialRegion={{
+              latitude: 24.8607,
+              longitude: 67.0104,
+              latitudeDelta: 0.05,
+              longitudeDelta: 0.05,
             }}
-            activeOpacity={0.85}
-          >
-            <ArrowLeft size={22} color="#333" />
-          </TouchableOpacity>
-          {step !== "main" && !showEnterRoute && (
-            <RouteSummaryCard from={ROUTE_DETAILS.from} to={ROUTE_DETAILS.to} />
-          )}
+          />
+
+          <View className="absolute top-12 left-4 right-4 flex-row gap-2 ">
+            <TouchableOpacity
+              className="w-12 h-12 bg-white rounded-full items-center justify-center shadow-lg"
+              onPress={() => {
+                handleBack();
+                router.back();
+              }}
+              activeOpacity={0.85}
+            >
+              <ArrowLeft size={22} color="#333" />
+            </TouchableOpacity>
+            {step !== "main" && !showEnterRoute && (
+              <RouteSummaryCard
+                from={ROUTE_DETAILS.from}
+                to={ROUTE_DETAILS.to}
+              />
+            )}
+          </View>
         </View>
-      </View>
+      }
 
       {step === "main" && (
         <MainSheet
@@ -167,6 +207,21 @@ export default function CityToCity() {
         />
       )}
 
+      <MyOrdersSheet
+        isVisible={showOrdersSheet}
+        onClose={() => setShowOrdersSheet(false)}
+        orders={[
+          {
+            status: "Cancelled",
+            fare: "PKR500",
+            type: "parcel",
+            scheduledLabel: "Wed, 25 Mar 5:45 PM",
+            from: "Pakistan, Plot 21, New Karachi Co-Operative Housing Society",
+            to: "Pakistan, Lahore",
+          },
+        ]}
+      />
+
       <View
         style={{
           position: "absolute",
@@ -183,13 +238,34 @@ export default function CityToCity() {
         }}
       >
         <TouchableOpacity style={{ flex: 1, alignItems: "center" }}>
-          <Navigation size={22} color="black" />
-          <Text style={{ fontWeight: "bold", marginTop: 4 }}>Ride</Text>
+          <Navigation
+            size={22}
+            color={!showOrdersSheet ? "black" : "#CBD5E1"}
+          />
+          <Text
+            style={{
+              fontWeight: "bold",
+              marginTop: 4,
+              color: !showOrdersSheet ? "black" : "#94A3B8",
+            }}
+          >
+            Ride
+          </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{ flex: 1, alignItems: "center" }}>
-          <History size={22} color="#CBD5E1" />
-          <Text style={{ color: "#94A3B8", marginTop: 4 }}>My orders</Text>
+        <TouchableOpacity
+          style={{ flex: 1, alignItems: "center" }}
+          onPress={handleMyOrdersPress}
+        >
+          <History size={22} color={showOrdersSheet ? "black" : "#CBD5E1"} />
+          <Text
+            style={{
+              color: showOrdersSheet ? "black" : "#94A3B8",
+              marginTop: 4,
+            }}
+          >
+            My orders
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
