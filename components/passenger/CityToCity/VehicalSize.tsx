@@ -1,10 +1,9 @@
-// ScheduleSheet.tsx
 import { Ionicons } from "@expo/vector-icons";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import React, { useEffect, useMemo, useRef } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
-interface ScheduleSheetProps {
+interface VehicleSizeProps {
   visible: boolean;
   onClose: () => void;
   selectedDate: string | null;
@@ -12,48 +11,22 @@ interface ScheduleSheetProps {
   onNext: () => void;
 }
 
-const ScheduleSheet = ({
+const VehicleSize = ({
   visible,
   onClose,
   selectedDate,
   onDateSelect,
   onNext,
-}: ScheduleSheetProps) => {
+}: VehicleSizeProps) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["60%"], []); // Increased height for more dates
+  const snapPoints = useMemo(() => ["45%"], []);
 
-  // Generate next 10 days dynamically
-  const dates = useMemo(() => {
-    const dateList = [];
-    const today = new Date();
-
-    for (let i = 0; i < 10; i++) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-
-      let label;
-      if (i === 0) {
-        label = "Today";
-      } else if (i === 1) {
-        label = "Tomorrow";
-      } else {
-        // Format: "Mon, 15 May"
-        const options: Intl.DateTimeFormatOptions = {
-          weekday: "short",
-          day: "numeric",
-          month: "short",
-        };
-        label = date.toLocaleDateString("en-US", options);
-      }
-
-      // Store as ISO string for consistency
-      const value = date.toISOString().split("T")[0]; // YYYY-MM-DD
-
-      dateList.push({ label, value });
-    }
-
-    return dateList;
-  }, []);
+  const dates = [
+    { label: "Today", value: "Today" },
+    { label: "Tomorrow", value: "Tomorrow" },
+    // You can add more dates here if needed
+    // { label: "Fri, 15 May", value: "Fri, 15 May" },
+  ];
 
   useEffect(() => {
     if (visible) {
@@ -103,12 +76,8 @@ const ScheduleSheet = ({
           </TouchableOpacity>
         </View>
 
-        {/* Date Options - Scrollable list with constrained height and padding */}
-        <ScrollView
-          style={{ maxHeight: 260 }}
-          contentContainerStyle={{ paddingBottom: 12 }}
-          showsVerticalScrollIndicator={false}
-        >
+        {/* Date Options */}
+        <View style={{ gap: 8 }}>
           {dates.map((item) => (
             <TouchableOpacity
               key={item.value}
@@ -116,30 +85,29 @@ const ScheduleSheet = ({
               style={{
                 padding: 18,
                 backgroundColor:
-                  selectedDate === item.value ? "#84cc16" : "#F5F5F5",
+                  selectedDate === item.value ? "#D6FF3D" : "#F5F5F5",
                 borderRadius: 14,
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "space-between",
-                marginBottom: 8,
               }}
             >
               <Text
                 style={{
                   fontSize: 18,
                   fontWeight: selectedDate === item.value ? "bold" : "600",
-                  color: selectedDate === item.value ? "#222" : "#333",
+                  color: selectedDate === item.value ? "#000" : "#333",
                 }}
               >
                 {item.label}
               </Text>
 
               {selectedDate === item.value && (
-                <Ionicons name="checkmark-circle" size={24} color="#222" />
+                <Ionicons name="checkmark-circle" size={24} color="#000" />
               )}
             </TouchableOpacity>
           ))}
-        </ScrollView>
+        </View>
 
         {/* Next Button */}
         <TouchableOpacity
@@ -147,13 +115,13 @@ const ScheduleSheet = ({
           disabled={!selectedDate}
           style={{
             marginTop: 32,
-            backgroundColor: selectedDate ? "#84cc16" : "#E5E7EB",
+            backgroundColor: selectedDate ? "#D6FF3D" : "#E5E7EB",
             paddingVertical: 18,
             borderRadius: 14,
             alignItems: "center",
           }}
         >
-          <Text style={{ fontSize: 20, fontWeight: "bold", color: "#222" }}>
+          <Text style={{ fontSize: 20, fontWeight: "bold", color: "#000" }}>
             Next
           </Text>
         </TouchableOpacity>
@@ -162,4 +130,4 @@ const ScheduleSheet = ({
   );
 };
 
-export default ScheduleSheet;
+export default VehicleSize;

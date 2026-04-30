@@ -1,7 +1,14 @@
+// LocationSheet.tsx
 import { Ionicons } from "@expo/vector-icons";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import React, { useCallback, useMemo, useRef } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
 interface LocationSheetProps {
   visible: boolean;
@@ -9,9 +16,9 @@ interface LocationSheetProps {
   title: string;
   city: string;
   street: string;
-  onCityPress: () => void;
-  onStreetPress: () => void;
-  onDone: () => void;
+  onCityPress?: () => void;
+  onStreetPress?: () => void;
+  onDone: (city: string, street: string) => void;
 }
 
 const LocationSheet = ({
@@ -27,38 +34,39 @@ const LocationSheet = ({
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ["45%"], []);
 
-  // Better way to control the sheet
+  // Move state inside the component
+  const [cityLocal, setCityLocal] = useState(city);
+  const [streetLocal, setStreetLocal] = useState(street);
+
+  // Update local state when props change (only when sheet becomes visible)
+  useEffect(() => {
+    if (visible) {
+      setCityLocal(city);
+      setStreetLocal(street);
+    }
+  }, [visible, city, street]);
+
   const handleSheetChanges = useCallback(
     (index: number) => {
-      if (index === -1) {
-        onClose();
-      }
+      if (index === -1) onClose();
     },
     [onClose],
   );
 
-  // Open/close when visible prop changes
-  React.useEffect(() => {
-    if (visible) {
-      bottomSheetRef.current?.snapToIndex(0);
-    } else {
-      bottomSheetRef.current?.close();
-    }
+  useEffect(() => {
+    if (visible) bottomSheetRef.current?.snapToIndex(0);
+    else bottomSheetRef.current?.close();
   }, [visible]);
 
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      index={visible ? 0 : -1} // ← This is the key fix
+      index={visible ? 0 : -1}
       snapPoints={snapPoints}
       enablePanDownToClose
       onChange={handleSheetChanges}
       handleIndicatorStyle={{ backgroundColor: "#E5E7EB", width: 40 }}
-      backgroundStyle={{
-        borderTopLeftRadius: 28,
-        borderTopRightRadius: 28,
-        paddingBottom: 10,
-      }}
+      backgroundStyle={{ borderTopLeftRadius: 28, borderTopRightRadius: 28 }}
     >
       <BottomSheetView
         style={{ paddingHorizontal: 18, paddingTop: 8, paddingBottom: 16 }}
@@ -81,7 +89,6 @@ const LocationSheet = ({
           >
             {title}
           </Text>
-
           <TouchableOpacity
             onPress={onClose}
             style={{ position: "absolute", right: 0 }}
@@ -90,49 +97,61 @@ const LocationSheet = ({
           </TouchableOpacity>
         </View>
 
-        {/* City */}
-        <TouchableOpacity
+        {/* City editable */}
+        <View
           style={{
             backgroundColor: "#F5F5F5",
             borderRadius: 12,
-            padding: 16,
+            padding: 12,
             marginBottom: 12,
           }}
-          onPress={onCityPress}
         >
           <Text style={{ color: "#A3A3A3", fontSize: 15 }}>City</Text>
-          <Text style={{ fontSize: 17, fontWeight: "bold" }}>{city}</Text>
-        </TouchableOpacity>
+          <TextInput
+            value={cityLocal}
+            onChangeText={setCityLocal}
+            placeholder="City"
+            placeholderTextColor="#9ca3af"
+            style={{ fontSize: 17, fontWeight: "700", paddingVertical: 6 }}
+            onFocus={onCityPress}
+          />
+        </View>
 
-        {/* Street */}
-        <TouchableOpacity
+        {/* Street editable */}
+        <View
           style={{
             backgroundColor: "#F5F5F5",
             borderRadius: 12,
-            padding: 16,
+            padding: 12,
             marginBottom: 24,
           }}
-          onPress={onStreetPress}
         >
           <Text style={{ color: "#A3A3A3", fontSize: 15 }}>
             House number and street
           </Text>
-          <Text style={{ fontSize: 17, fontWeight: "bold" }}>
-            {street || "Enter street"}
-          </Text>
-        </TouchableOpacity>
+          <TextInput
+            value={streetLocal}
+            onChangeText={setStreetLocal}
+            placeholder="Enter street"
+            placeholderTextColor="#9ca3af"
+            style={{ fontSize: 17, fontWeight: "700", paddingVertical: 6 }}
+            onFocus={onStreetPress}
+          />
+        </View>
 
         {/* Done Button */}
         <TouchableOpacity
           style={{
-            backgroundColor: "#D6FF3D",
+            backgroundColor: "#84cc16",
             borderRadius: 12,
             paddingVertical: 16,
             alignItems: "center",
           }}
-          onPress={onDone}
+          onPress={() => onDone(cityLocal.trim(), streetLocal.trim())}
         >
-          <Text style={{ fontWeight: "bold", fontSize: 20 }}>Done</Text>
+          <Text style={{ fontWeight: "bold", fontSize: 20, color: "#222" }}>
+            Done
+          </Text>
         </TouchableOpacity>
       </BottomSheetView>
     </BottomSheet>
